@@ -2,13 +2,19 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+const isVercelDeployment = Boolean(process.env.VERCEL || process.env.VERCEL_URL);
+const siteUrl = isVercelDeployment
+  ? `https://${process.env.VERCEL_URL ?? 'hermes-agent.nousresearch.com'}`
+  : 'https://hermes-agent.nousresearch.com';
+const baseUrl = isVercelDeployment ? '/' : '/docs/';
+
 const config: Config = {
   title: 'Hermes Agent',
   tagline: 'The self-improving AI agent',
   favicon: 'img/favicon.ico',
 
-  url: 'https://hermes-agent.nousresearch.com',
-  baseUrl: '/docs/',
+  url: siteUrl,
+  baseUrl,
 
   organizationName: 'NousResearch',
   projectName: 'hermes-agent',
