@@ -129,8 +129,8 @@ const html = `<!doctype html>
     <div class="ring one"></div>
     <div class="ring two"></div>
     <main class="wrap" aria-label="Hello World landing page">
-      <p class="eyebrow">Hermes Agent</p>
-      <h1>Bold <span>new things</span></h1>
+      <p class="eyebrow">Ok so I guess this is</p>
+      <h1><span>002.au</span></h1>
       <p class="lede">A very small website with very large type. Nothing more, nothing less.</p>
     </main>
   </body>
