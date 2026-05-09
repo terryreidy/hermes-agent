@@ -1,34 +1,18 @@
 # Website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
-
-## Installation
-
-```bash
-yarn
-```
-
-## Local Development
-
-```bash
-yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+This directory now builds a very small static site for Vercel.
 
 ## Build
 
 ```bash
-yarn build
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+That writes a plain `build/index.html` with bold typography.
 
 ## Deployment
 
 ### Vercel
-
-This site is a static Docusaurus build, so it works well on Vercel.
 
 Vercel project settings:
 
@@ -36,24 +20,8 @@ Vercel project settings:
 - **Build Command:** `npm run build`
 - **Output Directory:** `build`
 
-If you import the GitHub repo into Vercel, it should pick up `website/vercel.json` automatically.
+The repo already contains `website/vercel.json`, so Vercel should pick up the settings automatically.
 
 ### GitHub Pages
 
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
-
-## Diagram Linting
-
-CI runs `ascii-guard` to lint docs for ASCII box diagrams. Use Mermaid (````mermaid`) or plain lists/tables instead of ASCII boxes to avoid CI failures.
+GitHub Pages is no longer the target for this directory, but the old notes are left here if you need them.
