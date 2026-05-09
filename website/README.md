@@ -33,7 +33,7 @@ This site is a static Docusaurus build, so it works well on Vercel.
 Vercel project settings:
 
 - **Root Directory:** `website`
-- **Build Command:** `yarn build`
+- **Build Command:** `npm run build`
 - **Output Directory:** `build`
 
 If you import the GitHub repo into Vercel, it should pick up `website/vercel.json` automatically.
