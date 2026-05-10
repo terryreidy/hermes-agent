@@ -1,4 +1,4 @@
-import type { CSSProperties, FormEvent } from 'react'
+import type { ChangeEvent, CSSProperties, FormEvent } from 'react'
 import { useMemo, useState } from 'react'
 import type { ClusterItem, NodeItem, NodeKind, NodeSize } from '../types'
 
@@ -49,6 +49,23 @@ function categoryNames(node: NodeItem, clusters: ClusterItem[]) {
   return selected
     .map((id) => clusters.find((cluster) => cluster.id === id)?.label ?? id)
     .join(' / ')
+}
+
+function normalizeImportedNode(node: NodeItem, clusters: ClusterItem[]): NodeItem {
+  const fallbackCluster = clusters[0]?.id ?? 'ai'
+  const categories = node.categories?.length ? node.categories : [node.cluster || fallbackCluster]
+
+  return {
+    ...node,
+    id: node.id || slugify(node.title) || `node-${Date.now()}`,
+    cluster: categories[0] ?? fallbackCluster,
+    categories,
+    tags: Array.isArray(node.tags) ? node.tags : [],
+    position: node.position ?? { x: 750, y: 650 },
+    size: node.size ?? 'medium',
+    kind: node.kind ?? 'note',
+    summary: node.summary ?? '',
+  }
 }
 
 export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageProps) {
@@ -132,6 +149,53 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
     window.location.reload()
   }
 
+  const duplicateDraft = () => {
+    const cloneId = `${draft.id || slugify(draft.title) || 'node'}-copy-${Date.now().toString().slice(-4)}`
+    const clone: NodeItem = {
+      ...draft,
+      id: cloneId,
+      title: `${draft.title || 'Untitled object'} copy`,
+      position: {
+        x: Math.min(1420, draft.position.x + 42),
+        y: Math.min(1260, draft.position.y + 42),
+      },
+    }
+    onNodesChange([...nodes, clone])
+    setSelectedId(cloneId)
+    setDraft(clone)
+  }
+
+  const downloadNodesJson = () => {
+    const blob = new Blob([exportedJson], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'nodes.json'
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const importNodesJson = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    try {
+      const imported = JSON.parse(await file.text()) as NodeItem[]
+      if (!Array.isArray(imported)) return
+      const normalizedNodes = imported.map((node) => normalizeImportedNode(node, clusters))
+      onNodesChange(normalizedNodes)
+      const firstNode = normalizedNodes[0]
+      if (firstNode) {
+        setSelectedId(firstNode.id)
+        setDraft(firstNode)
+      } else {
+        createNew()
+      }
+    } finally {
+      event.target.value = ''
+    }
+  }
+
   return (
     <main className="admin-page">
       <header className="admin-topbar">
@@ -150,6 +214,13 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
           <div className="admin-list-heading">
             <span>{nodes.length} nodes</span>
             <button type="button" onClick={createNew}>+ new</button>
+          </div>
+          <div className="admin-file-actions">
+            <button type="button" onClick={downloadNodesJson}>download nodes.json</button>
+            <label>
+              import nodes.json
+              <input type="file" accept="application/json,.json" onChange={importNodesJson} />
+            </label>
           </div>
           {sortedNodes.map((node) => (
             <button
@@ -171,6 +242,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
               <h2>{draft.title || 'Untitled object'}</h2>
             </div>
             <div className="admin-actions">
+              {selectedNode ? <button type="button" onClick={duplicateDraft}>duplicate</button> : null}
               {selectedNode ? <button type="button" className="danger-button" onClick={deleteDraft}>delete</button> : null}
               <button type="submit" disabled={!canSave}>save locally</button>
             </div>

@@ -752,6 +752,8 @@ h1 {
 
 .admin-back,
 .admin-list-heading button,
+.admin-file-actions button,
+.admin-file-actions label,
 .admin-actions button,
 .admin-json-toggle,
 .admin-reset {
@@ -769,6 +771,8 @@ h1 {
 
 .admin-back:hover,
 .admin-list-heading button:hover,
+.admin-file-actions button:hover,
+.admin-file-actions label:hover,
 .admin-actions button:hover,
 .admin-json-toggle:hover {
   background: #f5f5f0;
@@ -827,6 +831,23 @@ h1 {
   background: #080808;
   border-bottom: 1px solid rgba(255, 255, 255, 0.11);
   padding: 12px;
+}
+
+.admin-file-actions {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.admin-file-actions button,
+.admin-file-actions label {
+  text-align: center;
+}
+
+.admin-file-actions input {
+  display: none;
 }
 
 .admin-list-heading span,
