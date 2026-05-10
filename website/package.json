@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-hello.mjs"
+    "build": "node scripts/build-network-archive.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.9.2",
