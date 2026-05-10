@@ -27,7 +27,7 @@
   display: grid;
   grid-template-columns: auto minmax(320px, 1fr);
   gap: 18px 34px;
-  align-items: end;
+  align-items: center;
   padding: 18px 24px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: linear-gradient(180deg, rgba(5, 5, 5, 0.92), rgba(5, 5, 5, 0.72));
@@ -37,6 +37,11 @@
 .banner-title-block,
 .banner-copy-block {
   min-width: 0;
+}
+
+.banner-title-block {
+  display: grid;
+  align-content: center;
 }
 
 .eyebrow {
@@ -50,7 +55,7 @@
 
 h1 {
   margin: 0;
-  color: #f8f7ef;
+  color: #ff6a00;
   font-size: clamp(3rem, 7vw, 5.9rem);
   font-weight: 950;
   letter-spacing: -0.105em;
@@ -103,6 +108,7 @@ h1 {
   cursor: grab;
   touch-action: none;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .constellation-shell.is-rotating {
@@ -154,18 +160,6 @@ h1 {
   inset: 0;
   overflow: hidden;
   transform-origin: center;
-}
-
-.constellation-axis {
-  position: absolute;
-  z-index: 3;
-  left: 50%;
-  top: clamp(118px, 19vh, 180px);
-  bottom: clamp(56px, 8vh, 118px);
-  width: 1px;
-  pointer-events: none;
-  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.18), transparent);
-  box-shadow: 0 0 42px rgba(255, 255, 255, 0.08);
 }
 
 .coordinate-grid {
@@ -313,21 +307,18 @@ h1 {
 .node-marker:hover .node-dot,
 .node-marker:focus-visible .node-dot,
 .node-marker.is-active .node-dot {
-  background: #fff;
-  box-shadow: 0 0 0 1px #fff, 0 0 42px rgba(255, 255, 255, 0.34);
-  transform: scale(1.28) rotate(45deg);
+  background: rgba(245, 245, 240, 0.96);
+  box-shadow: 0 0 0 1px rgba(245, 245, 240, 0.9);
 }
 
 .node-marker:hover .node-title,
 .node-marker:focus-visible .node-title,
 .node-marker.is-active .node-title {
   color: #fff;
-  transform: translateX(4px);
 }
 
 .node-marker:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.7);
-  outline-offset: 8px;
+  outline: none;
 }
 
 .wireframe {

@@ -151,7 +151,6 @@ export function ConstellationCanvas({
       <button type="button" className="pan-reset" onClick={resetRotation} data-no-canvas-rotate="true">
         reset view
       </button>
-      <div className="constellation-axis" aria-hidden="true" />
       <div className="constellation-stage">
         <div className="coordinate-grid" aria-hidden="true" />
         {projectedClusters.map((cluster) => (

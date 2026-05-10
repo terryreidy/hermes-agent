@@ -40,7 +40,7 @@ function App() {
     <main className="archive-page">
       <header className="top-banner">
         <div className="banner-title-block">
-          <p className="eyebrow">Ok so I guess this is</p>
+          <p className="eyebrow">My personal hivemind</p>
           <h1>002.au</h1>
         </div>
         <div className="banner-copy-block">
@@ -67,7 +67,9 @@ function App() {
         />
       </div>
 
-      {selectedNode ? <DetailPanel node={selectedNode} onClose={() => setSelectedNode(undefined)} /> : null}
+      {selectedNode ? (
+        <DetailPanel key={selectedNode.id} node={selectedNode} onClose={() => setSelectedNode(undefined)} />
+      ) : null}
 
       <MobileClusterList clusters={clusters} nodes={nodes} onSelect={setSelectedNode} />
     </main>

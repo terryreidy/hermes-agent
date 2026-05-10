@@ -7,7 +7,7 @@ interface DetailPanelProps {
 }
 
 export function DetailPanel({ node, onClose }: DetailPanelProps) {
-  const { panelRef, style, isDragging, onHandlePointerDown } = useDraggablePanel<HTMLElement>()
+  const { panelRef, style, isDragging, onHandlePointerDown } = useDraggablePanel<HTMLElement>(node.position)
 
   return (
     <aside

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent, RefObject } from 'react'
 
-interface Point {
+export interface Point {
   x: number
   y: number
 }
@@ -36,7 +36,18 @@ function defaultPosition(element?: HTMLElement | null): Point {
   return clampPoint({ x: window.innerWidth - width - 24, y: 132 }, element)
 }
 
-export function useDraggablePanel<T extends HTMLElement>(): {
+function positionFromAnchor(anchor?: Point): Point | undefined {
+  if (!anchor) {
+    return undefined
+  }
+
+  return {
+    x: anchor.x - DEFAULT_PANEL_WIDTH / 2,
+    y: anchor.y - 28,
+  }
+}
+
+export function useDraggablePanel<T extends HTMLElement>(anchor?: Point): {
   panelRef: RefObject<T | null>
   style: { transform: string }
   isDragging: boolean
@@ -48,24 +59,25 @@ export function useDraggablePanel<T extends HTMLElement>(): {
   const dragRef = useRef<{ pointerId: number; startX: number; startY: number; startPosition: Point } | null>(null)
 
   useLayoutEffect(() => {
-    setPosition((current) => current ?? defaultPosition(panelRef.current))
-  }, [])
+    const nextPosition = positionFromAnchor(anchor) ?? defaultPosition(panelRef.current)
+    setPosition(clampPoint(nextPosition, panelRef.current))
+  }, [anchor])
 
   useEffect(() => {
     const onResize = () => {
-      setPosition((current) => clampPoint(current ?? defaultPosition(panelRef.current), panelRef.current))
+      setPosition((current) => clampPoint(current ?? positionFromAnchor(anchor) ?? defaultPosition(panelRef.current), panelRef.current))
     }
 
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
-  }, [])
+  }, [anchor])
 
   const onHandlePointerDown = useCallback((event: ReactPointerEvent<HTMLElement>) => {
     if (event.button !== 0) {
       return
     }
 
-    const current = clampPoint(position ?? defaultPosition(panelRef.current), panelRef.current)
+    const current = clampPoint(position ?? positionFromAnchor(anchor) ?? defaultPosition(panelRef.current), panelRef.current)
     event.preventDefault()
     event.currentTarget.setPointerCapture(event.pointerId)
     dragRef.current = {
@@ -76,7 +88,7 @@ export function useDraggablePanel<T extends HTMLElement>(): {
     }
     setPosition(current)
     setIsDragging(true)
-  }, [position])
+  }, [anchor, position])
 
   useEffect(() => {
     const onPointerMove = (event: PointerEvent) => {
