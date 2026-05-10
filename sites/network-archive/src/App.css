@@ -1,7 +1,7 @@
 .archive-page {
   min-height: 100vh;
   overflow-x: hidden;
-  padding: 34px;
+  padding: 0;
   position: relative;
 }
 
@@ -18,20 +18,29 @@
   mask-image: radial-gradient(circle at 50% 42%, black, transparent 72%);
 }
 
-.site-header {
-  position: relative;
-  z-index: 5;
+.top-banner {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  right: 0;
   display: grid;
-  grid-template-columns: minmax(280px, 0.72fr) minmax(320px, 1fr);
-  gap: 18px 44px;
+  grid-template-columns: auto minmax(320px, 1fr);
+  gap: 18px 34px;
   align-items: end;
-  max-width: 1340px;
-  margin: 0 auto 36px;
+  padding: 18px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.92), rgba(5, 5, 5, 0.72));
+  backdrop-filter: blur(18px);
+}
+
+.banner-title-block,
+.banner-copy-block {
+  min-width: 0;
 }
 
 .eyebrow {
-  grid-column: 1 / -1;
-  margin: 0;
+  margin: 0 0 5px;
   color: rgba(245, 245, 240, 0.72);
   font-size: 0.72rem;
   font-weight: 800;
@@ -42,26 +51,25 @@
 h1 {
   margin: 0;
   color: #f8f7ef;
-  font-size: clamp(4.2rem, 12vw, 10.5rem);
+  font-size: clamp(3rem, 7vw, 5.9rem);
   font-weight: 950;
   letter-spacing: -0.105em;
   line-height: 0.76;
 }
 
 .intro {
-  max-width: 44rem;
+  max-width: 52rem;
   margin: 0;
   color: rgba(245, 245, 240, 0.72);
-  font-size: clamp(1rem, 1.7vw, 1.35rem);
-  line-height: 1.5;
+  font-size: clamp(0.86rem, 1.25vw, 1.05rem);
+  line-height: 1.35;
 }
 
 .cluster-readout {
-  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 14px;
+  margin-top: 10px;
   max-width: 1040px;
 }
 
@@ -76,33 +84,37 @@ h1 {
   text-transform: uppercase;
 }
 
-.workspace {
+.map-viewport {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 18px;
-  max-width: 1460px;
-  margin: 0 auto;
+  min-height: 100vh;
 }
 
 .constellation-shell {
-  min-height: 820px;
+  min-height: 100vh;
+  height: 100vh;
   overflow: hidden;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  border: 0;
   background:
     radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.055), transparent 20rem),
     radial-gradient(circle at 78% 62%, rgba(255, 255, 255, 0.045), transparent 28rem),
     rgba(255, 255, 255, 0.018);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.constellation-shell.is-panning {
+  cursor: grabbing;
 }
 
 .map-instructions {
   position: absolute;
   z-index: 12;
-  top: 16px;
-  left: 16px;
-  right: 16px;
+  top: 128px;
+  left: 18px;
+  right: 18px;
   display: flex;
   justify-content: space-between;
   gap: 12px;
@@ -114,13 +126,36 @@ h1 {
   text-transform: uppercase;
 }
 
+.pan-reset {
+  position: absolute;
+  z-index: 14;
+  right: 18px;
+  bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(5, 5, 5, 0.62);
+  color: rgba(245, 245, 240, 0.7);
+  cursor: pointer;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  padding: 8px 10px;
+  text-transform: uppercase;
+}
+
+.pan-reset:hover,
+.pan-reset:focus-visible {
+  background: #f5f5f0;
+  color: #050505;
+}
+
 .constellation-stage {
   position: absolute;
   width: 1500px;
   height: 1350px;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -49%) scale(0.74);
+  transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-47% + var(--pan-y, 0px))) scale(0.76);
   transform-origin: center;
 }
 
@@ -326,21 +361,50 @@ h1 {
 }
 
 .detail-panel {
-  position: sticky;
-  top: 24px;
-  align-self: start;
-  min-height: 360px;
-  padding: 22px;
+  position: fixed;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  width: min(360px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  overflow: auto;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(5, 5, 5, 0.84);
+  background: rgba(5, 5, 5, 0.86);
   backdrop-filter: blur(18px);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.44);
   color: rgba(245, 245, 240, 0.72);
+}
+
+.detail-panel.is-dragging {
+  cursor: grabbing;
+}
+
+.panel-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+  padding: 16px 54px 12px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.panel-drag-handle:active {
+  cursor: grabbing;
+}
+
+.panel-content {
+  padding: 20px 22px 22px;
 }
 
 .panel-close {
   position: absolute;
-  top: 12px;
-  right: 13px;
+  z-index: 2;
+  top: 14px;
+  right: 14px;
   width: 28px;
   height: 28px;
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -352,11 +416,20 @@ h1 {
 }
 
 .panel-kicker {
-  margin: 0 0 24px;
+  margin: 0;
   color: rgba(245, 245, 240, 0.45);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.68rem;
   letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.panel-grip {
+  color: rgba(245, 245, 240, 0.32);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -370,8 +443,7 @@ h1 {
   text-transform: uppercase;
 }
 
-.panel-summary,
-.detail-panel-empty p:last-child {
+.panel-summary {
   margin: 20px 0 0;
   font-size: 0.98rem;
   line-height: 1.55;
@@ -422,31 +494,28 @@ h1 {
 }
 
 @media (max-width: 1120px) {
-  .archive-page {
-    padding: 22px;
-  }
-
-  .site-header {
+  .top-banner {
     grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 14px 18px 13px;
   }
 
-  .workspace {
-    grid-template-columns: 1fr;
+  h1 {
+    font-size: clamp(2.65rem, 13vw, 4.8rem);
   }
 
-  .detail-panel {
-    position: relative;
-    top: auto;
+  .map-instructions {
+    top: 156px;
   }
 
   .constellation-stage {
-    transform: translate(-50%, -49%) scale(0.58);
+    transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-46% + var(--pan-y, 0px))) scale(0.58);
   }
 }
 
 @media (max-width: 760px) {
-  .archive-page {
-    padding: 18px;
+  .top-banner {
+    gap: 8px;
   }
 
   .eyebrow {
@@ -454,7 +523,7 @@ h1 {
   }
 
   .intro {
-    font-size: 1rem;
+    font-size: 0.88rem;
   }
 
   .cluster-readout {
@@ -462,7 +531,8 @@ h1 {
   }
 
   .constellation-shell {
-    min-height: 520px;
+    min-height: 78vh;
+    height: 78vh;
   }
 
   .map-instructions {
@@ -470,7 +540,7 @@ h1 {
   }
 
   .constellation-stage {
-    transform: translate(-50%, -48%) scale(0.36);
+    transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-43% + var(--pan-y, 0px))) scale(0.36);
   }
 
   .node-title {
@@ -486,11 +556,20 @@ h1 {
     font-size: 1.65rem;
   }
 
+  .panel-drag-handle {
+    padding-left: 14px;
+  }
+
+  .panel-content {
+    padding: 18px 18px 20px;
+  }
+
   .mobile-clusters {
     display: grid;
     gap: 24px;
-    margin: 28px auto 0;
+    margin: 0 auto;
     max-width: 1460px;
+    padding: 24px 18px 32px;
   }
 
   .mobile-cluster {

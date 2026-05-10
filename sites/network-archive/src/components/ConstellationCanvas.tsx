@@ -1,4 +1,6 @@
+import type { CSSProperties } from 'react'
 import type { ClusterItem, EdgeItem, NodeItem } from '../types'
+import { useCanvasPan } from '../hooks/useCanvasPan'
 import { GraphEdges } from './GraphEdges'
 import { NodeMarker } from './NodeMarker'
 
@@ -19,13 +21,25 @@ export function ConstellationCanvas({
   onSelectNode,
   onHoverNode,
 }: ConstellationCanvasProps) {
+  const { pan, isPanning, resetPan, canvasHandlers } = useCanvasPan()
+
   return (
-    <section className="constellation-shell" aria-label="Spatial archive map">
+    <section
+      className={`constellation-shell ${isPanning ? 'is-panning' : ''}`}
+      aria-label="Spatial archive map"
+      {...canvasHandlers}
+    >
       <div className="map-instructions">
         <span>002.au / working constellation</span>
-        <span>click a node to inspect</span>
+        <span>drag empty space to pan · click a node to inspect</span>
       </div>
-      <div className="constellation-stage">
+      <button type="button" className="pan-reset" onClick={resetPan} data-no-canvas-pan="true">
+        reset pan
+      </button>
+      <div
+        className="constellation-stage"
+        style={{ '--pan-x': `${pan.x}px`, '--pan-y': `${pan.y}px` } as CSSProperties}
+      >
         <div className="coordinate-grid" aria-hidden="true" />
         {clusters.map((cluster) => (
           <div

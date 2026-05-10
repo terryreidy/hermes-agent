@@ -23,7 +23,11 @@ export function NodeMarker({ node, isActive, onSelect, onHover }: NodeMarkerProp
       type="button"
       className={`node-marker node-${node.size} ${isActive ? 'is-active' : ''}`}
       style={{ left: node.position.x, top: node.position.y }}
-      onClick={() => onSelect(node)}
+      onPointerDown={(event) => event.stopPropagation()}
+      onClick={(event) => {
+        event.stopPropagation()
+        onSelect(node)
+      }}
       onMouseEnter={() => onHover(node.id)}
       onMouseLeave={() => onHover(undefined)}
       onFocus={() => onHover(node.id)}
