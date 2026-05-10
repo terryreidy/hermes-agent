@@ -5,7 +5,6 @@ export interface ProjectedNode extends NodeItem {
   depth: number
   visualScale: number
   visualOpacity: number
-  visualBlur: number
 }
 
 interface NodeMarkerProps {
@@ -34,7 +33,6 @@ export function NodeMarker({ node, isActive, onSelect, onHover }: NodeMarkerProp
         left: node.position.x,
         top: node.position.y,
         opacity: node.visualOpacity,
-        filter: `blur(${node.visualBlur}px)`,
         transform: `translate(-9px, -9px) scale(${node.visualScale})`,
         zIndex: Math.round(20 + node.depth * 20),
       } as CSSProperties}

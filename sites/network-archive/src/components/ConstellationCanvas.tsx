@@ -1,7 +1,9 @@
+import type { CSSProperties } from 'react'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { ClusterItem, EdgeItem, NodeItem } from '../types'
 import { useConstellationRotation } from '../hooks/useConstellationRotation'
 import { GraphEdges } from './GraphEdges'
+import type { GraphPoint, ProjectedCluster } from './GraphEdges'
 import { NodeMarker } from './NodeMarker'
 import type { ProjectedNode } from './NodeMarker'
 
@@ -19,19 +21,9 @@ interface Size {
   height: number
 }
 
-interface ProjectedCluster extends ClusterItem {
-  position: {
-    x: number
-    y: number
-  }
-  depth: number
-  opacity: number
-  blur: number
-}
-
 const SOURCE_WIDTH = 1500
 const SOURCE_HEIGHT = 1350
-const SOURCE_CENTER_X = SOURCE_WIDTH / 2
+const SOURCE_CENTER = { x: SOURCE_WIDTH / 2, y: 610 }
 const MIN_STAGE_WIDTH = 320
 const MIN_STAGE_HEIGHT = 420
 
@@ -66,31 +58,52 @@ function useElementSize<T extends HTMLElement>() {
   return { ref, size }
 }
 
-function projectPoint(sourcePosition: { x: number; y: number }, rotation: number, size: Size) {
-  const edgePadding = clamp(size.width * 0.17, 130, 260)
-  const topPadding = clamp(size.height * 0.18, 112, 180)
-  const bottomPadding = clamp(size.height * 0.08, 56, 120)
-  const usableHeight = Math.max(360, size.height - topPadding - bottomPadding)
-  const yProgress = sourcePosition.y / SOURCE_HEIGHT
-  const sourceOffset = sourcePosition.x - SOURCE_CENTER_X
-  const angle = (sourceOffset / SOURCE_CENTER_X) * Math.PI * 0.86 + rotation
-  const depth = (Math.cos(angle) + 1) / 2
-  const radius = Math.max(260, size.width / 2 - edgePadding)
-  const perspective = 0.78 + depth * 0.2
+function rotateSourcePoint(sourcePosition: { x: number; y: number }, rotation: number) {
+  const dx = sourcePosition.x - SOURCE_CENTER.x
+  const dy = sourcePosition.y - SOURCE_CENTER.y
+  const cos = Math.cos(rotation)
+  const sin = Math.sin(rotation)
 
   return {
-    x: size.width / 2 + Math.sin(angle) * radius * perspective,
+    x: SOURCE_CENTER.x + dx * cos - dy * sin,
+    y: SOURCE_CENTER.y + dx * sin + dy * cos,
+  }
+}
+
+function projectPoint(sourcePosition: { x: number; y: number }, rotation: number, size: Size) {
+  const topPadding = clamp(size.height * 0.2, 132, 186)
+  const bottomPadding = clamp(size.height * 0.08, 56, 120)
+  const sidePadding = clamp(size.width * 0.08, 42, 132)
+  const usableWidth = Math.max(280, size.width - sidePadding * 2)
+  const usableHeight = Math.max(320, size.height - topPadding - bottomPadding)
+  const rotated = rotateSourcePoint(sourcePosition, rotation)
+  const xProgress = rotated.x / SOURCE_WIDTH
+  const yProgress = rotated.y / SOURCE_HEIGHT
+  const centreDistance = Math.hypot(sourcePosition.x - SOURCE_CENTER.x, sourcePosition.y - SOURCE_CENTER.y)
+  const maxDistance = 690
+
+  return {
+    x: sidePadding + xProgress * usableWidth,
     y: topPadding + yProgress * usableHeight,
-    depth,
+    depth: 1 - clamp(centreDistance / maxDistance, 0, 1) * 0.42,
   }
 }
 
 function visualFromDepth(depth: number) {
   return {
-    visualScale: 0.78 + depth * 0.34,
-    visualOpacity: 0.32 + depth * 0.68,
-    visualBlur: Math.max(0, (1 - depth) * 2.2),
+    visualScale: 0.86 + depth * 0.18,
+    visualOpacity: 0.64 + depth * 0.36,
   }
+}
+
+function BrainIcon() {
+  return (
+    <svg className="brain-icon" viewBox="0 0 120 96" role="img" aria-label="Brain: personal hivemind centre">
+      <path d="M46 15c-9 0-16 6-18 14-9 2-16 10-16 20 0 6 3 12 7 16-1 12 8 22 20 22 5 0 10-2 14-6V20c-2-3-4-5-7-5Z" />
+      <path d="M74 15c9 0 16 6 18 14 9 2 16 10 16 20 0 6-3 12-7 16 1 12-8 22-20 22-5 0-10-2-14-6V20c2-3 4-5 7-5Z" />
+      <path d="M53 27c-7 0-12 5-12 12m12 14c-9 0-16 6-17 15m31-41c7 0 12 5 12 12M67 53c9 0 16 6 17 15M60 18v67" />
+    </svg>
+  )
 }
 
 export function ConstellationCanvas({
@@ -102,7 +115,16 @@ export function ConstellationCanvas({
   onHoverNode,
 }: ConstellationCanvasProps) {
   const { ref: shellRef, size } = useElementSize<HTMLElement>()
-  const { rotation, isRotating, resetRotation, rotationHandlers } = useConstellationRotation(-0.34)
+  const { rotation, isRotating, resetRotation, rotationHandlers } = useConstellationRotation(0)
+
+  const brain = useMemo<GraphPoint>(() => {
+    const projection = projectPoint(SOURCE_CENTER, rotation, size)
+    return {
+      id: 'brain',
+      position: { x: projection.x, y: projection.y },
+      depth: 1,
+    }
+  }, [rotation, size])
 
   const projectedNodes = useMemo<ProjectedNode[]>(() => {
     return nodes
@@ -131,8 +153,7 @@ export function ConstellationCanvas({
           y: projection.y,
         },
         depth: projection.depth,
-        opacity: 0.16 + projection.depth * 0.32,
-        blur: Math.max(0, (1 - projection.depth) * 1.8),
+        opacity: 0.82 + projection.depth * 0.18,
       }
     })
   }, [clusters, rotation, size])
@@ -145,7 +166,7 @@ export function ConstellationCanvas({
       {...rotationHandlers}
     >
       <div className="map-instructions">
-        <span>002.au / rotating constellation</span>
+        <span>002.au / brain → categories → items</span>
         <span>drag empty space to rotate · click a node to inspect</span>
       </div>
       <button type="button" className="pan-reset" onClick={resetRotation} data-no-canvas-rotate="true">
@@ -153,23 +174,38 @@ export function ConstellationCanvas({
       </button>
       <div className="constellation-stage">
         <div className="coordinate-grid" aria-hidden="true" />
+        <GraphEdges
+          edges={edges}
+          nodes={projectedNodes}
+          clusters={projectedClusters}
+          brain={brain}
+          activeNodeId={activeNodeId}
+          width={size.width}
+          height={size.height}
+        />
+        <div
+          className="brain-node"
+          style={{ left: brain.position.x, top: brain.position.y, zIndex: 48 } as CSSProperties}
+        >
+          <BrainIcon />
+          <span>hivemind</span>
+        </div>
         {projectedClusters.map((cluster) => (
           <div
             key={cluster.id}
-            className={`cluster-label cluster-${cluster.id}`}
+            className="category-node"
             style={{
+              '--category-color': cluster.color,
               left: cluster.position.x,
               top: cluster.position.y,
               opacity: cluster.opacity,
-              filter: `blur(${cluster.blur}px)`,
-              zIndex: Math.round(4 + cluster.depth * 8),
-            }}
+              zIndex: Math.round(30 + cluster.depth * 12),
+            } as CSSProperties}
           >
             <span>{cluster.label}</span>
             <small>{cluster.description}</small>
           </div>
         ))}
-        <GraphEdges edges={edges} nodes={projectedNodes} activeNodeId={activeNodeId} width={size.width} height={size.height} />
         {projectedNodes.map((node) => (
           <NodeMarker
             key={node.id}
@@ -179,12 +215,6 @@ export function ConstellationCanvas({
             onHover={onHoverNode}
           />
         ))}
-        <div className="wireframe wireframe-one" aria-hidden="true">
-          <span />
-        </div>
-        <div className="wireframe wireframe-two" aria-hidden="true">
-          <span />
-        </div>
       </div>
     </section>
   )

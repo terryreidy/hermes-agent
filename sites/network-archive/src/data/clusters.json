@@ -3,36 +3,42 @@
     "id": "ai",
     "label": "AI / agents / automation",
     "description": "Machine intelligence when it becomes useful, local, and operational.",
-    "origin": { "x": 520, "y": 170 }
+    "color": "#00e5ff",
+    "origin": { "x": 750, "y": 245 }
   },
   {
     "id": "security",
     "label": "security / trust / identity",
     "description": "Cybersecurity stories that are really about systems, incentives, and trust.",
-    "origin": { "x": 980, "y": 430 }
+    "color": "#ff2d95",
+    "origin": { "x": 1035, "y": 410 }
   },
   {
     "id": "design",
     "label": "design / archive / spatial UI",
     "description": "References and thoughts about interfaces that feel more like maps than pages.",
-    "origin": { "x": 330, "y": 620 }
+    "color": "#ffe600",
+    "origin": { "x": 465, "y": 410 }
   },
   {
     "id": "australia",
     "label": "Australia / Melbourne / policy",
     "description": "Local technology, city systems, policy, and practical civic futures.",
-    "origin": { "x": 1080, "y": 710 }
+    "color": "#38ff72",
+    "origin": { "x": 1035, "y": 785 }
   },
   {
     "id": "created",
     "label": "created work / public thinking",
     "description": "Things made, posted, written, shipped, or still becoming real.",
-    "origin": { "x": 630, "y": 970 }
+    "color": "#ff7a00",
+    "origin": { "x": 465, "y": 785 }
   },
   {
     "id": "tools",
     "label": "tools / weird internet",
     "description": "Useful infrastructure, odd links, and small objects worth keeping.",
-    "origin": { "x": 1130, "y": 1110 }
+    "color": "#9b5cff",
+    "origin": { "x": 750, "y": 950 }
   }
 ]

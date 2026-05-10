@@ -9,6 +9,7 @@ export interface NodeItem {
   url?: string
   summary: string
   cluster: string
+  categories?: string[]
   tags: string[]
   date?: string
   position: {
@@ -28,6 +29,7 @@ export interface ClusterItem {
   id: string
   label: string
   description: string
+  color: string
   origin: {
     x: number
     y: number

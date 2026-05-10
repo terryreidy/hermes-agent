@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { ConstellationCanvas } from './components/ConstellationCanvas'
@@ -21,7 +22,7 @@ function App() {
   const nodeCountByCluster = useMemo(() => {
     return clusters.map((cluster) => ({
       ...cluster,
-      count: nodes.filter((node) => node.cluster === cluster.id).length,
+      count: nodes.filter((node) => (node.categories?.length ? node.categories : [node.cluster]).includes(cluster.id)).length,
     }))
   }, [])
 
@@ -50,7 +51,9 @@ function App() {
           </p>
           <div className="cluster-readout" aria-label="Archive clusters">
             {nodeCountByCluster.map((cluster) => (
-              <span key={cluster.id}>{cluster.label} [{cluster.count}]</span>
+              <span key={cluster.id} style={{ '--cluster-color': cluster.color } as CSSProperties}>
+                {cluster.label} [{cluster.count}]
+              </span>
             ))}
           </div>
         </div>
