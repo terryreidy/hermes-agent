@@ -1,5 +1,6 @@
 import type { ChangeEvent, CSSProperties, FormEvent } from 'react'
 import { useMemo, useState } from 'react'
+import './AdminPage.css'
 import type { ClusterItem, NodeItem, NodeKind, NodeSize } from '../types'
 
 interface AdminPageProps {
@@ -145,7 +146,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
   }
 
   const resetLocalDrafts = () => {
-    window.localStorage.removeItem('network-archive:nodes')
+    window.localStorage.removeItem('network-archive:admin-nodes')
     window.location.reload()
   }
 

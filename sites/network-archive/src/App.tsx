@@ -1,7 +1,6 @@
 import type { CSSProperties } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
-import { AdminPage } from './components/AdminPage'
 import { ConstellationCanvas } from './components/ConstellationCanvas'
 import { DetailPanel } from './components/DetailPanel'
 import { MobileClusterList } from './components/MobileClusterList'
@@ -10,24 +9,11 @@ import edgesData from './data/edges.json'
 import nodesData from './data/nodes.json'
 import type { ClusterItem, EdgeItem, NodeItem } from './types'
 
-const initialNodes = nodesData as NodeItem[]
+const nodes = nodesData as NodeItem[]
 const edges = edgesData as EdgeItem[]
 const clusters = clustersData as ClusterItem[]
 
-function loadNodesFromBrowser() {
-  if (typeof window === 'undefined') return initialNodes
-
-  try {
-    const storedNodes = window.localStorage.getItem('network-archive:nodes')
-    return storedNodes ? (JSON.parse(storedNodes) as NodeItem[]) : initialNodes
-  } catch {
-    return initialNodes
-  }
-}
-
 function App() {
-  const [nodes, setNodes] = useState<NodeItem[]>(loadNodesFromBrowser)
-  const [route, setRoute] = useState(() => (window.location.hash === '#admin' ? 'admin' : 'map'))
   const [selectedNode, setSelectedNode] = useState<NodeItem | undefined>()
   const [hoveredNodeId, setHoveredNodeId] = useState<string | undefined>()
 
@@ -38,16 +24,6 @@ function App() {
       ...cluster,
       count: nodes.filter((node) => (node.categories?.length ? node.categories : [node.cluster]).includes(cluster.id)).length,
     }))
-  }, [nodes])
-
-  useEffect(() => {
-    window.localStorage.setItem('network-archive:nodes', JSON.stringify(nodes))
-  }, [nodes])
-
-  useEffect(() => {
-    const syncRoute = () => setRoute(window.location.hash === '#admin' ? 'admin' : 'map')
-    window.addEventListener('hashchange', syncRoute)
-    return () => window.removeEventListener('hashchange', syncRoute)
   }, [])
 
   useEffect(() => {
@@ -61,20 +37,6 @@ function App() {
     return () => window.removeEventListener('keydown', closeOnEscape)
   }, [])
 
-  if (route === 'admin') {
-    return (
-      <AdminPage
-        clusters={clusters}
-        nodes={nodes}
-        onNodesChange={setNodes}
-        onBack={() => {
-          window.location.hash = ''
-          setRoute('map')
-        }}
-      />
-    )
-  }
-
   return (
     <main className="archive-page">
       <header className="top-banner">
@@ -87,9 +49,6 @@ function App() {
             A prototype for a spatial archive: posts, links, notes, news, projects, and odd little
             signals arranged as a map instead of a feed.
           </p>
-          <div className="banner-actions">
-            <a href="#admin">admin</a>
-          </div>
           <div className="cluster-readout" aria-label="Archive clusters">
             {nodeCountByCluster.map((cluster) => (
               <span key={cluster.id} style={{ '--cluster-color': cluster.color } as CSSProperties}>
