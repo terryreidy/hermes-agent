@@ -1,7 +1,15 @@
+import type { CSSProperties } from 'react'
 import type { NodeItem } from '../types'
 
+export interface ProjectedNode extends NodeItem {
+  depth: number
+  visualScale: number
+  visualOpacity: number
+  visualBlur: number
+}
+
 interface NodeMarkerProps {
-  node: NodeItem
+  node: ProjectedNode
   isActive: boolean
   onSelect: (node: NodeItem) => void
   onHover: (nodeId?: string) => void
@@ -22,7 +30,14 @@ export function NodeMarker({ node, isActive, onSelect, onHover }: NodeMarkerProp
     <button
       type="button"
       className={`node-marker node-${node.size} ${isActive ? 'is-active' : ''}`}
-      style={{ left: node.position.x, top: node.position.y }}
+      style={{
+        left: node.position.x,
+        top: node.position.y,
+        opacity: node.visualOpacity,
+        filter: `blur(${node.visualBlur}px)`,
+        transform: `translate(-9px, -9px) scale(${node.visualScale})`,
+        zIndex: Math.round(20 + node.depth * 20),
+      } as CSSProperties}
       onPointerDown={(event) => event.stopPropagation()}
       onClick={(event) => {
         event.stopPropagation()

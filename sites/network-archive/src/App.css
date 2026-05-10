@@ -105,7 +105,7 @@ h1 {
   user-select: none;
 }
 
-.constellation-shell.is-panning {
+.constellation-shell.is-rotating {
   cursor: grabbing;
 }
 
@@ -151,12 +151,21 @@ h1 {
 
 .constellation-stage {
   position: absolute;
-  width: 1500px;
-  height: 1350px;
-  left: 50%;
-  top: 50%;
-  transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-47% + var(--pan-y, 0px))) scale(0.76);
+  inset: 0;
+  overflow: hidden;
   transform-origin: center;
+}
+
+.constellation-axis {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: clamp(118px, 19vh, 180px);
+  bottom: clamp(56px, 8vh, 118px);
+  width: 1px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  box-shadow: 0 0 42px rgba(255, 255, 255, 0.08);
 }
 
 .coordinate-grid {
@@ -175,6 +184,7 @@ h1 {
   inset: 0;
   overflow: visible;
   pointer-events: none;
+  z-index: 5;
 }
 
 .edge {
@@ -253,7 +263,8 @@ h1 {
   background: transparent;
   cursor: pointer;
   text-align: left;
-  transform: translate(-9px, -9px);
+  transform-origin: 9px 9px;
+  transition: opacity 180ms ease, filter 180ms ease, transform 180ms ease;
 }
 
 .node-dot {
@@ -509,7 +520,7 @@ h1 {
   }
 
   .constellation-stage {
-    transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-46% + var(--pan-y, 0px))) scale(0.58);
+    inset: 0;
   }
 }
 
@@ -540,7 +551,7 @@ h1 {
   }
 
   .constellation-stage {
-    transform: translate(calc(-50% + var(--pan-x, 0px)), calc(-43% + var(--pan-y, 0px))) scale(0.36);
+    inset: 0;
   }
 
   .node-title {
