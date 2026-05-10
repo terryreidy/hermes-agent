@@ -8,6 +8,28 @@
   padding: 22px;
 }
 
+.admin-page-loading {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.admin-page-loading h1 {
+  margin: 0;
+  color: #f5f5f0;
+  font-size: clamp(2.4rem, 5.2vw, 5rem);
+  font-weight: 950;
+  letter-spacing: -0.09em;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.admin-page-loading p:last-child {
+  color: rgba(245, 245, 240, 0.66);
+}
+
 .admin-topbar {
   display: grid;
   grid-template-columns: auto minmax(260px, 0.8fr) minmax(320px, 1fr);
@@ -132,6 +154,46 @@
 
 .admin-file-actions input {
   display: none;
+}
+
+.admin-storage-status {
+  display: grid;
+  gap: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 10px 12px 12px;
+  background: rgba(255, 255, 255, 0.025);
+  color: rgba(245, 245, 240, 0.68);
+}
+
+.admin-storage-status strong,
+.admin-storage-status small {
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.62rem;
+  line-height: 1.35;
+}
+
+.admin-storage-status strong {
+  color: #f5f5f0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-storage-status.is-ready strong,
+.admin-storage-status.is-saved strong {
+  color: #89ffbf;
+}
+
+.admin-storage-status.is-saving strong {
+  color: #ffd166;
+}
+
+.admin-storage-status.is-error strong {
+  color: #ff5c93;
+}
+
+.admin-storage-status small {
+  color: rgba(245, 245, 240, 0.42);
 }
 
 .admin-list-heading span,

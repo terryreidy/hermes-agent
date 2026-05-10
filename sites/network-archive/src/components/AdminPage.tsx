@@ -3,11 +3,19 @@ import { useMemo, useState } from 'react'
 import './AdminPage.css'
 import type { ClusterItem, NodeItem, NodeKind, NodeSize } from '../types'
 
+export interface StorageStatus {
+  tone: 'loading' | 'ready' | 'saving' | 'saved' | 'error'
+  message: string
+  filePath?: string
+}
+
 interface AdminPageProps {
   clusters: ClusterItem[]
   nodes: NodeItem[]
   onNodesChange: (nodes: NodeItem[]) => void
+  onReloadFromDisk: () => void
   onBack: () => void
+  storageStatus: StorageStatus
 }
 
 const nodeKinds: NodeKind[] = ['post', 'link', 'note', 'project', 'news', 'person', 'tool']
@@ -75,7 +83,7 @@ function stripGeneratedFieldsForExport(nodes: NodeItem[]) {
   })
 }
 
-export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageProps) {
+export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, onBack, storageStatus }: AdminPageProps) {
   const [selectedId, setSelectedId] = useState(nodes[0]?.id ?? 'new')
   const selectedNode = nodes.find((node) => node.id === selectedId)
   const [draft, setDraft] = useState<NodeItem>(selectedNode ?? { ...emptyDraft, cluster: clusters[0]?.id ?? 'ai', categories: [clusters[0]?.id ?? 'ai'] })
@@ -113,8 +121,8 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
     })
   }
 
-  const saveDraft = (event: FormEvent) => {
-    event.preventDefault()
+  const saveDraft = (event?: FormEvent) => {
+    event?.preventDefault()
     if (!canSave) return
 
     const id = draft.id || slugify(draft.title) || `node-${Date.now()}`
@@ -151,9 +159,8 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
     }
   }
 
-  const resetLocalDrafts = () => {
-    window.localStorage.removeItem('network-archive:admin-nodes')
-    window.location.reload()
+  const reloadFromJsonFile = () => {
+    onReloadFromDisk()
   }
 
   const duplicateDraft = () => {
@@ -208,7 +215,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
           <h1>content console</h1>
         </div>
         <p className="admin-note">
-          Edit the archive as objects: details, links, tags, and category routes. The map balances itself from this metadata; export JSON when it feels right.
+          Edit freely here. Each save writes directly to the local source file; when you want it published, tell Hyun to push this JSON to the preview branch.
         </p>
       </header>
 
@@ -219,11 +226,16 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
             <button type="button" onClick={createNew}>+ new</button>
           </div>
           <div className="admin-file-actions">
-            <button type="button" onClick={downloadNodesJson}>download nodes.json</button>
+            <button type="button" onClick={reloadFromJsonFile}>reload from disk</button>
+            <button type="button" onClick={downloadNodesJson}>download backup</button>
             <label>
               import nodes.json
               <input type="file" accept="application/json,.json" onChange={importNodesJson} />
             </label>
+          </div>
+          <div className={`admin-storage-status is-${storageStatus.tone}`}>
+            <strong>{storageStatus.message}</strong>
+            {storageStatus.filePath ? <small>{storageStatus.filePath}</small> : null}
           </div>
           {sortedNodes.map((node) => (
             <button
@@ -247,7 +259,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
             <div className="admin-actions">
               {selectedNode ? <button type="button" onClick={duplicateDraft}>duplicate</button> : null}
               {selectedNode ? <button type="button" className="danger-button" onClick={deleteDraft}>delete</button> : null}
-              <button type="submit" disabled={!canSave}>save locally</button>
+              <button type="button" disabled={!canSave || storageStatus.tone === 'saving'} onClick={() => saveDraft()}>{storageStatus.tone === 'saving' ? 'saving…' : 'save to nodes.json'}</button>
             </div>
           </div>
 
@@ -332,10 +344,10 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
             </div>
           </article>
           <button type="button" className="admin-json-toggle" onClick={() => setJsonVisible(!jsonVisible)}>
-            {jsonVisible ? 'hide JSON export' : 'show JSON export'}
+            {jsonVisible ? 'hide JSON snapshot' : 'show JSON snapshot'}
           </button>
           {jsonVisible ? <textarea className="json-export" readOnly value={exportedJson} /> : null}
-          <button type="button" className="danger-button admin-reset" onClick={resetLocalDrafts}>reset local edits</button>
+          <button type="button" className="admin-reset" onClick={reloadFromJsonFile}>discard unsaved form changes / reload file</button>
         </aside>
       </section>
     </main>
