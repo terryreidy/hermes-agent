@@ -1,0 +1,13 @@
+[
+  { "source": "ai-agents-note", "target": "local-models-link", "type": "related" },
+  { "source": "ai-agents-note", "target": "tools-hermes", "type": "follow-up" },
+  { "source": "security-news-supply-chain", "target": "identity-threat-note", "type": "related" },
+  { "source": "security-news-supply-chain", "target": "australia-tech-policy", "type": "related" },
+  { "source": "design-reference-void", "target": "portfolio-as-map", "type": "inspired-by" },
+  { "source": "portfolio-as-map", "target": "created-work-002", "type": "follow-up" },
+  { "source": "created-work-002", "target": "linkedin-post-placeholder", "type": "related" },
+  { "source": "created-work-002", "target": "tools-hermes", "type": "related" },
+  { "source": "australia-tech-policy", "target": "melbourne-systems", "type": "related" },
+  { "source": "tools-hermes", "target": "weird-internet-library", "type": "related" },
+  { "source": "weird-internet-library", "target": "design-reference-void", "type": "contrast" }
+]

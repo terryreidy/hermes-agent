@@ -1,0 +1,127 @@
+[
+  {
+    "id": "ai-agents-note",
+    "title": "Agents as colleagues, not apps",
+    "kind": "note",
+    "summary": "A working thought about agents becoming collaborators that sit inside real workflows rather than separate chat windows.",
+    "cluster": "ai",
+    "tags": ["AI", "agents", "workflow"],
+    "date": "2026-05-10",
+    "position": { "x": 390, "y": 210 },
+    "size": "large"
+  },
+  {
+    "id": "local-models-link",
+    "title": "Local models that are finally useful",
+    "kind": "link",
+    "url": "https://ollama.com/",
+    "summary": "A marker for practical local inference: small models, low latency, boring operations.",
+    "cluster": "ai",
+    "tags": ["local AI", "models"],
+    "position": { "x": 670, "y": 160 },
+    "size": "medium"
+  },
+  {
+    "id": "security-news-supply-chain",
+    "title": "Supply-chain security keeps eating software",
+    "kind": "news",
+    "url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+    "summary": "A news doorway for incidents where boring dependencies become strategic infrastructure risk.",
+    "cluster": "security",
+    "tags": ["cybersecurity", "supply chain"],
+    "position": { "x": 1010, "y": 330 },
+    "size": "medium"
+  },
+  {
+    "id": "identity-threat-note",
+    "title": "Identity is the perimeter now",
+    "kind": "note",
+    "summary": "A compact thesis: most serious security stories eventually become identity, trust, and operational discipline stories.",
+    "cluster": "security",
+    "tags": ["identity", "trust"],
+    "position": { "x": 860, "y": 520 },
+    "size": "large"
+  },
+  {
+    "id": "design-reference-void",
+    "title": "Black void / white coordinates",
+    "kind": "link",
+    "summary": "The visual reference: sparse objects floating in a dark field, closer to exhibition graphics than a normal website.",
+    "cluster": "design",
+    "tags": ["design", "spatial UI"],
+    "position": { "x": 250, "y": 520 },
+    "size": "large"
+  },
+  {
+    "id": "portfolio-as-map",
+    "title": "A portfolio should be a map",
+    "kind": "note",
+    "summary": "Instead of chronological posts, treat work as a network of ideas, affinities, and recurring obsessions.",
+    "cluster": "design",
+    "tags": ["portfolio", "archive"],
+    "position": { "x": 470, "y": 670 },
+    "size": "medium"
+  },
+  {
+    "id": "australia-tech-policy",
+    "title": "Australian tech policy watch",
+    "kind": "news",
+    "url": "https://www.industry.gov.au/",
+    "summary": "A holding node for Australian regulation, industry policy, and technology capability stories.",
+    "cluster": "australia",
+    "tags": ["Australia", "policy"],
+    "position": { "x": 1180, "y": 650 },
+    "size": "medium"
+  },
+  {
+    "id": "melbourne-systems",
+    "title": "Melbourne as a systems lab",
+    "kind": "note",
+    "summary": "Transport, universities, health, climate, housing: the city as a messy living diagram of systems design.",
+    "cluster": "australia",
+    "tags": ["Melbourne", "systems"],
+    "position": { "x": 980, "y": 790 },
+    "size": "small"
+  },
+  {
+    "id": "created-work-002",
+    "title": "002.au first signal",
+    "kind": "project",
+    "summary": "The initial placeholder site becomes the seed of a stranger, more personal archive.",
+    "cluster": "created",
+    "tags": ["002.au", "site"],
+    "position": { "x": 720, "y": 900 },
+    "size": "large"
+  },
+  {
+    "id": "linkedin-post-placeholder",
+    "title": "LinkedIn post worth keeping",
+    "kind": "post",
+    "url": "https://www.linkedin.com/",
+    "summary": "A placeholder for a real LinkedIn post: the site should preserve why the link mattered, not just where it points.",
+    "cluster": "created",
+    "tags": ["LinkedIn", "public thinking"],
+    "position": { "x": 540, "y": 1040 },
+    "size": "medium"
+  },
+  {
+    "id": "tools-hermes",
+    "title": "Hermes as personal infrastructure",
+    "kind": "tool",
+    "summary": "A node for automation that becomes part of the working environment rather than a novelty demo.",
+    "cluster": "tools",
+    "tags": ["Hermes", "automation"],
+    "position": { "x": 1220, "y": 1040 },
+    "size": "large"
+  },
+  {
+    "id": "weird-internet-library",
+    "title": "Small weird internet library",
+    "kind": "link",
+    "summary": "A place for strange, useful, beautiful, or inexplicable pages that should not disappear into browser history.",
+    "cluster": "tools",
+    "tags": ["internet", "archive"],
+    "position": { "x": 1040, "y": 1190 },
+    "size": "medium"
+  }
+]
