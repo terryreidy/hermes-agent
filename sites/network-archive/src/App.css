@@ -69,6 +69,28 @@ h1 {
   line-height: 1.35;
 }
 
+.banner-actions {
+  margin-top: 9px;
+}
+
+.banner-actions a {
+  border: 1px solid rgba(255, 106, 0, 0.72);
+  color: #ff6a00;
+  display: inline-flex;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  padding: 5px 8px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.banner-actions a:hover {
+  background: #ff6a00;
+  color: #050505;
+}
+
 .cluster-readout {
   display: flex;
   flex-wrap: wrap;
@@ -511,6 +533,17 @@ h1 {
   line-height: 1.55;
 }
 
+.panel-detail-body {
+  margin-top: 18px;
+  color: rgba(245, 245, 240, 0.62);
+  font-size: 0.88rem;
+  line-height: 1.48;
+}
+
+.panel-detail-body p {
+  margin: 0 0 12px;
+}
+
 .panel-tags {
   display: flex;
   flex-wrap: wrap;
@@ -678,5 +711,329 @@ h1 {
     font-size: 0.62rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+}
+
+.admin-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 106, 0, 0.14), transparent 28rem),
+    radial-gradient(circle at 84% 18%, rgba(0, 229, 255, 0.1), transparent 24rem),
+    #050505;
+  color: #f5f5f0;
+  padding: 22px;
+}
+
+.admin-topbar {
+  display: grid;
+  grid-template-columns: auto minmax(260px, 0.8fr) minmax(320px, 1fr);
+  gap: 22px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 18px;
+}
+
+.admin-topbar h1,
+.admin-editor h2,
+.admin-preview h2 {
+  margin: 0;
+  color: #f5f5f0;
+  font-size: clamp(2.4rem, 5.2vw, 5rem);
+  font-weight: 950;
+  letter-spacing: -0.09em;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.admin-editor h2,
+.admin-preview h2 {
+  font-size: clamp(1.7rem, 3.6vw, 3rem);
+}
+
+.admin-back,
+.admin-list-heading button,
+.admin-actions button,
+.admin-json-toggle,
+.admin-reset {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.045);
+  color: #f5f5f0;
+  cursor: pointer;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  padding: 9px 10px;
+  text-transform: uppercase;
+}
+
+.admin-back:hover,
+.admin-list-heading button:hover,
+.admin-actions button:hover,
+.admin-json-toggle:hover {
+  background: #f5f5f0;
+  color: #050505;
+}
+
+.admin-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.danger-button {
+  border-color: rgba(255, 45, 149, 0.48) !important;
+  color: #ff2d95 !important;
+}
+
+.danger-button:hover {
+  background: #ff2d95 !important;
+  color: #050505 !important;
+}
+
+.admin-note {
+  max-width: 58rem;
+  margin: 0;
+  color: rgba(245, 245, 240, 0.66);
+  line-height: 1.38;
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(460px, 1fr) 360px;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.admin-node-list,
+.admin-editor,
+.admin-preview {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.admin-node-list {
+  max-height: calc(100vh - 150px);
+  overflow: auto;
+}
+
+.admin-list-heading {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #080808;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+  padding: 12px;
+}
+
+.admin-list-heading span,
+.admin-editor label span,
+.category-picker legend,
+.position-picker legend {
+  color: rgba(245, 245, 240, 0.48);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.63rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.admin-node-row {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: #f5f5f0;
+  cursor: pointer;
+  padding: 12px;
+  text-align: left;
+}
+
+.admin-node-row span {
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.admin-node-row small {
+  color: rgba(245, 245, 240, 0.44);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.admin-node-row:hover,
+.admin-node-row.is-selected {
+  background: rgba(255, 106, 0, 0.13);
+}
+
+.admin-editor,
+.admin-preview {
+  padding: 18px;
+}
+
+.admin-editor {
+  display: grid;
+  gap: 15px;
+}
+
+.admin-editor-title,
+.admin-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.admin-actions {
+  align-items: center;
+}
+
+.admin-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.admin-editor label {
+  display: grid;
+  gap: 7px;
+}
+
+.admin-editor input,
+.admin-editor select,
+.admin-editor textarea,
+.json-export {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(5, 5, 5, 0.76);
+  color: #f5f5f0;
+  font: inherit;
+  padding: 10px 11px;
+}
+
+.admin-editor textarea,
+.json-export {
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.category-picker,
+.position-picker {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 0;
+  padding: 12px;
+}
+
+.category-picker p,
+.position-picker p {
+  margin: 3px 0 11px;
+  color: rgba(245, 245, 240, 0.5);
+  font-size: 0.82rem;
+}
+
+.category-picker div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.category-picker button {
+  border: 1px solid color-mix(in srgb, var(--category-color) 64%, transparent);
+  background: transparent;
+  color: color-mix(in srgb, var(--category-color) 88%, #f5f5f0);
+  cursor: pointer;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  padding: 8px 9px;
+  text-transform: uppercase;
+}
+
+.category-picker button.is-selected {
+  background: color-mix(in srgb, var(--category-color) 26%, transparent);
+  color: #f5f5f0;
+}
+
+.position-picker label {
+  grid-template-columns: 28px 1fr 48px;
+  align-items: center;
+}
+
+.position-picker output {
+  color: rgba(245, 245, 240, 0.54);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+}
+
+.admin-preview {
+  align-self: start;
+  position: sticky;
+  top: 18px;
+}
+
+.admin-preview article {
+  margin-top: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(5, 5, 5, 0.74);
+  padding: 18px;
+}
+
+.admin-preview article > p,
+.admin-preview-body {
+  color: rgba(245, 245, 240, 0.66);
+  line-height: 1.5;
+}
+
+.admin-preview-body {
+  margin-top: 16px;
+  font-size: 0.9rem;
+}
+
+.admin-json-toggle,
+.admin-reset {
+  margin-top: 14px;
+  width: 100%;
+}
+
+.json-export {
+  height: 260px;
+  margin-top: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 1180px) {
+  .admin-topbar,
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-node-list,
+  .admin-preview {
+    max-height: none;
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-page {
+    padding: 14px;
+  }
+
+  .admin-two-col,
+  .admin-editor-title {
+    grid-template-columns: 1fr;
+    display: grid;
   }
 }

@@ -26,6 +26,13 @@ export function DetailPanel({ node, onClose }: DetailPanelProps) {
       <div className="panel-content">
         <h2>{node.title}</h2>
         <p className="panel-summary">{node.summary}</p>
+        {node.detail ? (
+          <div className="panel-detail-body">
+            {node.detail.split('\n\n').map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+        ) : null}
         <div className="panel-tags" aria-label="Tags">
           {node.tags.map((tag) => (
             <span key={tag}>{tag}</span>

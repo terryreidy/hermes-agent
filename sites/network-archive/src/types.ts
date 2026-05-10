@@ -12,6 +12,7 @@ export interface NodeItem {
   categories?: string[]
   tags: string[]
   date?: string
+  detail?: string
   position: {
     x: number
     y: number
