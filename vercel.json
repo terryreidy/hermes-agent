@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd sites/network-archive && npm ci",
+  "buildCommand": "cd sites/network-archive && npm run build",
+  "outputDirectory": "sites/network-archive/dist"
+}
