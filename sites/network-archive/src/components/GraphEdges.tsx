@@ -11,7 +11,11 @@ export interface GraphPoint {
   depth: number
 }
 
-export interface ProjectedCluster extends ClusterItem, GraphPoint {
+export interface ProjectedCluster extends Omit<ClusterItem, 'origin'>, GraphPoint {
+  origin: {
+    x: number
+    y: number
+  }
   opacity: number
 }
 

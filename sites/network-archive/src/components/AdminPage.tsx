@@ -21,7 +21,6 @@ const emptyDraft: NodeItem = {
   cluster: 'ai',
   categories: ['ai'],
   tags: [],
-  position: { x: 750, y: 650 },
   size: 'medium',
   detail: '',
 }
@@ -62,11 +61,18 @@ function normalizeImportedNode(node: NodeItem, clusters: ClusterItem[]): NodeIte
     cluster: categories[0] ?? fallbackCluster,
     categories,
     tags: Array.isArray(node.tags) ? node.tags : [],
-    position: node.position ?? { x: 750, y: 650 },
     size: node.size ?? 'medium',
     kind: node.kind ?? 'note',
     summary: node.summary ?? '',
   }
+}
+
+function stripGeneratedFieldsForExport(nodes: NodeItem[]) {
+  return nodes.map((node) => {
+    const exportedNode = { ...node }
+    delete exportedNode.position
+    return exportedNode
+  })
 }
 
 export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageProps) {
@@ -81,7 +87,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
 
   const draftCategories = draft.categories?.length ? draft.categories : [draft.cluster]
   const canSave = draft.title.trim() && draft.summary.trim() && draftCategories.length > 0
-  const exportedJson = JSON.stringify(nodes, null, 2)
+  const exportedJson = JSON.stringify(stripGeneratedFieldsForExport(nodes), null, 2)
 
   const selectNode = (node: NodeItem) => {
     setSelectedId(node.id)
@@ -156,10 +162,6 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
       ...draft,
       id: cloneId,
       title: `${draft.title || 'Untitled object'} copy`,
-      position: {
-        x: Math.min(1420, draft.position.x + 42),
-        y: Math.min(1260, draft.position.y + 42),
-      },
     }
     onNodesChange([...nodes, clone])
     setSelectedId(cloneId)
@@ -206,7 +208,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
           <h1>content console</h1>
         </div>
         <p className="admin-note">
-          Edit the archive as objects: details, links, tags, category routes, and the map position. Saves locally in this browser; export JSON when it feels right.
+          Edit the archive as objects: details, links, tags, and category routes. The map balances itself from this metadata; export JSON when it feels right.
         </p>
       </header>
 
@@ -315,17 +317,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onBack }: AdminPageP
 
           <fieldset className="position-picker">
             <legend>Map placement</legend>
-            <p>Use rough coordinates for now. Later this can become a drag-on-map picker.</p>
-            <label>
-              <span>X</span>
-              <input type="range" min="80" max="1420" value={draft.position.x} onChange={(event) => setDraft({ ...draft, position: { ...draft.position, x: Number(event.target.value) } })} />
-              <output>{draft.position.x}</output>
-            </label>
-            <label>
-              <span>Y</span>
-              <input type="range" min="80" max="1260" value={draft.position.y} onChange={(event) => setDraft({ ...draft, position: { ...draft.position, y: Number(event.target.value) } })} />
-              <output>{draft.position.y}</output>
-            </label>
+            <p>Automatic. Category links, item count, visual weight, and cross-links determine the constellation layout.</p>
           </fieldset>
         </form>
 

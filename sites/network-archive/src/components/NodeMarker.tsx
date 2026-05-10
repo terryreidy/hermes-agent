@@ -1,7 +1,11 @@
 import type { CSSProperties } from 'react'
 import type { NodeItem } from '../types'
 
-export interface ProjectedNode extends NodeItem {
+export interface ProjectedNode extends Omit<NodeItem, 'position'> {
+  position: {
+    x: number
+    y: number
+  }
   depth: number
   visualScale: number
   visualOpacity: number

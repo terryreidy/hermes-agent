@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { ClusterItem, EdgeItem, NodeItem } from '../types'
 import { useConstellationRotation } from '../hooks/useConstellationRotation'
+import { computeAutoLayout, SOURCE_CENTER, SOURCE_HEIGHT, SOURCE_WIDTH } from '../layout/autoLayout'
 import { GraphEdges } from './GraphEdges'
 import type { GraphPoint, ProjectedCluster } from './GraphEdges'
 import { NodeMarker } from './NodeMarker'
@@ -21,9 +22,6 @@ interface Size {
   height: number
 }
 
-const SOURCE_WIDTH = 1500
-const SOURCE_HEIGHT = 1350
-const SOURCE_CENTER = { x: SOURCE_WIDTH / 2, y: 610 }
 const MIN_STAGE_WIDTH = 320
 const MIN_STAGE_HEIGHT = 420
 
@@ -117,6 +115,8 @@ export function ConstellationCanvas({
   const { ref: shellRef, size } = useElementSize<HTMLElement>()
   const { rotation, isRotating, resetRotation, rotationHandlers } = useConstellationRotation(0)
 
+  const autoLayout = useMemo(() => computeAutoLayout({ clusters, nodes, edges }), [clusters, nodes, edges])
+
   const brain = useMemo<GraphPoint>(() => {
     const projection = projectPoint(SOURCE_CENTER, rotation, size)
     return {
@@ -127,7 +127,7 @@ export function ConstellationCanvas({
   }, [rotation, size])
 
   const projectedNodes = useMemo<ProjectedNode[]>(() => {
-    return nodes
+    return autoLayout.nodes
       .map((node) => {
         const projection = projectPoint(node.position, rotation, size)
         return {
@@ -141,10 +141,10 @@ export function ConstellationCanvas({
         }
       })
       .sort((a, b) => a.depth - b.depth)
-  }, [nodes, rotation, size])
+  }, [autoLayout.nodes, rotation, size])
 
   const projectedClusters = useMemo<ProjectedCluster[]>(() => {
-    return clusters.map((cluster) => {
+    return autoLayout.clusters.map((cluster) => {
       const projection = projectPoint(cluster.origin, rotation, size)
       return {
         ...cluster,
@@ -156,7 +156,7 @@ export function ConstellationCanvas({
         opacity: 0.82 + projection.depth * 0.18,
       }
     })
-  }, [clusters, rotation, size])
+  }, [autoLayout.clusters, rotation, size])
 
   return (
     <section

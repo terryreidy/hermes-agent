@@ -13,7 +13,7 @@ export interface NodeItem {
   tags: string[]
   date?: string
   detail?: string
-  position: {
+  position?: {
     x: number
     y: number
   }
@@ -31,7 +31,7 @@ export interface ClusterItem {
   label: string
   description: string
   color: string
-  origin: {
+  origin?: {
     x: number
     y: number
   }

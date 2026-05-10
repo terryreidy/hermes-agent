@@ -5,10 +5,16 @@
     "kind": "note",
     "summary": "A working thought about agents becoming collaborators that sit inside real workflows rather than separate chat windows.",
     "cluster": "ai",
-    "categories": ["ai", "tools"],
-    "tags": ["AI", "agents", "workflow"],
+    "categories": [
+      "ai",
+      "tools"
+    ],
+    "tags": [
+      "AI",
+      "agents",
+      "workflow"
+    ],
     "date": "2026-05-10",
-    "position": { "x": 590, "y": 95 },
     "size": "large"
   },
   {
@@ -18,9 +24,14 @@
     "url": "https://ollama.com/",
     "summary": "A marker for practical local inference: small models, low latency, boring operations.",
     "cluster": "ai",
-    "categories": ["ai", "tools"],
-    "tags": ["local AI", "models"],
-    "position": { "x": 900, "y": 105 },
+    "categories": [
+      "ai",
+      "tools"
+    ],
+    "tags": [
+      "local AI",
+      "models"
+    ],
     "size": "medium"
   },
   {
@@ -30,9 +41,14 @@
     "url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
     "summary": "A news doorway for incidents where boring dependencies become strategic infrastructure risk.",
     "cluster": "security",
-    "categories": ["security", "australia"],
-    "tags": ["cybersecurity", "supply chain"],
-    "position": { "x": 1265, "y": 315 },
+    "categories": [
+      "security",
+      "australia"
+    ],
+    "tags": [
+      "cybersecurity",
+      "supply chain"
+    ],
     "size": "medium"
   },
   {
@@ -41,9 +57,14 @@
     "kind": "note",
     "summary": "A compact thesis: most serious security stories eventually become identity, trust, and operational discipline stories.",
     "cluster": "security",
-    "categories": ["security", "ai"],
-    "tags": ["identity", "trust"],
-    "position": { "x": 1210, "y": 520 },
+    "categories": [
+      "security",
+      "ai"
+    ],
+    "tags": [
+      "identity",
+      "trust"
+    ],
     "size": "large"
   },
   {
@@ -52,9 +73,13 @@
     "kind": "link",
     "summary": "The visual reference: sparse objects floating in a dark field, closer to exhibition graphics than a normal website.",
     "cluster": "design",
-    "categories": ["design"],
-    "tags": ["design", "spatial UI"],
-    "position": { "x": 165, "y": 310 },
+    "categories": [
+      "design"
+    ],
+    "tags": [
+      "design",
+      "spatial UI"
+    ],
     "size": "large"
   },
   {
@@ -63,9 +88,14 @@
     "kind": "note",
     "summary": "Instead of chronological posts, treat work as a network of ideas, affinities, and recurring obsessions.",
     "cluster": "design",
-    "categories": ["design", "created"],
-    "tags": ["portfolio", "archive"],
-    "position": { "x": 235, "y": 540 },
+    "categories": [
+      "design",
+      "created"
+    ],
+    "tags": [
+      "portfolio",
+      "archive"
+    ],
     "size": "medium"
   },
   {
@@ -75,9 +105,14 @@
     "url": "https://www.industry.gov.au/",
     "summary": "A holding node for Australian regulation, industry policy, and technology capability stories.",
     "cluster": "australia",
-    "categories": ["australia", "security"],
-    "tags": ["Australia", "policy"],
-    "position": { "x": 1265, "y": 760 },
+    "categories": [
+      "australia",
+      "security"
+    ],
+    "tags": [
+      "Australia",
+      "policy"
+    ],
     "size": "medium"
   },
   {
@@ -86,9 +121,14 @@
     "kind": "note",
     "summary": "Transport, universities, health, climate, housing: the city as a messy living diagram of systems design.",
     "cluster": "australia",
-    "categories": ["australia", "design"],
-    "tags": ["Melbourne", "systems"],
-    "position": { "x": 1190, "y": 985 },
+    "categories": [
+      "australia",
+      "design"
+    ],
+    "tags": [
+      "Melbourne",
+      "systems"
+    ],
     "size": "small"
   },
   {
@@ -97,9 +137,15 @@
     "kind": "project",
     "summary": "The initial placeholder site becomes the seed of a stranger, more personal archive.",
     "cluster": "created",
-    "categories": ["created", "design", "tools"],
-    "tags": ["002.au", "site"],
-    "position": { "x": 300, "y": 870 },
+    "categories": [
+      "created",
+      "design",
+      "tools"
+    ],
+    "tags": [
+      "002.au",
+      "site"
+    ],
     "size": "large"
   },
   {
@@ -109,9 +155,13 @@
     "url": "https://www.linkedin.com/",
     "summary": "A placeholder for a real LinkedIn post: the site should preserve why the link mattered, not just where it points.",
     "cluster": "created",
-    "categories": ["created"],
-    "tags": ["LinkedIn", "public thinking"],
-    "position": { "x": 180, "y": 1065 },
+    "categories": [
+      "created"
+    ],
+    "tags": [
+      "LinkedIn",
+      "public thinking"
+    ],
     "size": "medium"
   },
   {
@@ -120,9 +170,15 @@
     "kind": "tool",
     "summary": "A node for automation that becomes part of the working environment rather than a novelty demo.",
     "cluster": "tools",
-    "categories": ["tools", "ai", "created"],
-    "tags": ["Hermes", "automation"],
-    "position": { "x": 880, "y": 1190 },
+    "categories": [
+      "tools",
+      "ai",
+      "created"
+    ],
+    "tags": [
+      "Hermes",
+      "automation"
+    ],
     "size": "large"
   },
   {
@@ -131,9 +187,14 @@
     "kind": "link",
     "summary": "A place for strange, useful, beautiful, or inexplicable pages that should not disappear into browser history.",
     "cluster": "tools",
-    "categories": ["tools", "design"],
-    "tags": ["internet", "archive"],
-    "position": { "x": 635, "y": 1205 },
+    "categories": [
+      "tools",
+      "design"
+    ],
+    "tags": [
+      "internet",
+      "archive"
+    ],
     "size": "medium"
   }
 ]
