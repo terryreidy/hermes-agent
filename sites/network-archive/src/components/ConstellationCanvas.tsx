@@ -13,6 +13,7 @@ interface ConstellationCanvasProps {
   edges: EdgeItem[]
   nodes: NodeItem[]
   activeNodeId?: string
+  isDetailOpen: boolean
   onSelectNode: (node: NodeItem) => void
   onHoverNode: (nodeId?: string) => void
 }
@@ -109,11 +110,15 @@ export function ConstellationCanvas({
   edges,
   nodes,
   activeNodeId,
+  isDetailOpen,
   onSelectNode,
   onHoverNode,
 }: ConstellationCanvasProps) {
   const { ref: shellRef, size } = useElementSize<HTMLElement>()
-  const { rotation, isRotating, resetRotation, rotationHandlers } = useConstellationRotation(0)
+  const { rotation, isRotating, isAutoRotating, resetRotation, rotationHandlers } = useConstellationRotation({
+    initialRotation: 0,
+    autoRotatePaused: isDetailOpen,
+  })
 
   const autoLayout = useMemo(() => computeAutoLayout({ clusters, nodes, edges }), [clusters, nodes, edges])
 
@@ -161,7 +166,8 @@ export function ConstellationCanvas({
   return (
     <section
       ref={shellRef}
-      className={`constellation-shell ${isRotating ? 'is-rotating' : ''}`}
+      className={`constellation-shell ${isRotating ? 'is-rotating' : ''} ${isAutoRotating ? 'is-auto-rotating' : ''}`}
+      data-auto-rotating={isAutoRotating ? 'true' : 'false'}
       aria-label="Spatial archive map"
       {...rotationHandlers}
     >

@@ -65,6 +65,7 @@ function App() {
           edges={edges}
           nodes={nodes}
           activeNodeId={activeNodeId}
+          isDetailOpen={Boolean(selectedNode)}
           onSelectNode={setSelectedNode}
           onHoverNode={setHoveredNodeId}
         />
