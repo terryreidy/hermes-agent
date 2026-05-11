@@ -34,5 +34,11 @@
     "label": "tools / weird internet",
     "description": "Useful infrastructure, odd links, and small objects worth keeping.",
     "color": "#9b5cff"
+  },
+  {
+    "id": "music-art-inspire",
+    "label": "Music / Art / Inspire",
+    "description": "Music, art, artists, objects, and references that feed the imagination.",
+    "color": "#ff4fd8"
   }
 ]
