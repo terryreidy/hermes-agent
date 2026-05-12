@@ -60,7 +60,7 @@ test('computeAutoLayout is deterministic and separates sibling nodes', () => {
   assert.ok(Math.hypot(a.position.x - b.position.x, a.position.y - b.position.y) > 110)
 })
 
-test('single-category items sit beyond their category hubs', () => {
+test('single-category items leave at least a 2x radial whitespace gap beyond their category hubs', () => {
   const layout = computeAutoLayout({ clusters, nodes, edges })
   const byCluster = new Map(layout.clusters.map((cluster) => [cluster.id, cluster]))
 
@@ -70,20 +70,22 @@ test('single-category items sit beyond their category hubs', () => {
     const cluster = byCluster.get(categoriesForNode(node)[0])
     assert.ok(cluster)
 
+    const categoryRadius = distanceFromCenter(cluster.origin)
+    const categoryToItem = Math.hypot(node.position.x - cluster.origin.x, node.position.y - cluster.origin.y)
     assert.ok(
-      distanceFromCenter(node.position) > distanceFromCenter(cluster.origin) + 80,
-      `${node.id} should sit outside ${cluster.id}`,
+      categoryToItem >= categoryRadius * 2,
+      `${node.id} should sit at least twice as far beyond ${cluster.id} as ${cluster.id} sits from the brain`,
     )
   }
 })
 
-test('category hubs form a readable inner ring around the brain', () => {
+test('category hubs form a tight inner ring around the brain', () => {
   const layout = computeAutoLayout({ clusters, nodes, edges })
 
   for (const cluster of layout.clusters) {
     const radius = distanceFromCenter(cluster.origin)
-    assert.ok(radius >= 220, `${cluster.id} should not overlap the brain`)
-    assert.ok(radius <= 390, `${cluster.id} should stay in the inner ring`)
+    assert.ok(radius >= 150, `${cluster.id} should not overlap the brain`)
+    assert.ok(radius <= 260, `${cluster.id} should stay close to the brain`)
   }
 })
 
@@ -106,8 +108,8 @@ test('multi-category items sit outside the average direction of their category h
   const midpointRadius = distanceFromCenter(midpoint)
   const bridgeRadius = distanceFromCenter(bridge.position)
 
-  assert.ok(toMidpoint < 420)
-  assert.ok(bridgeRadius > midpointRadius + 80)
+  assert.ok(toMidpoint >= midpointRadius * 2)
+  assert.ok(bridgeRadius > midpointRadius * 2)
 })
 
 test('dense category items remain separated on the outer ring', () => {
@@ -127,7 +129,9 @@ test('dense category items remain separated on the outer ring', () => {
   assert.ok(ai)
 
   for (const node of layout.nodes) {
-    assert.ok(distanceFromCenter(node.position) > distanceFromCenter(ai.origin) + 60)
+    const categoryRadius = distanceFromCenter(ai.origin)
+    const categoryToItem = Math.hypot(node.position.x - ai.origin.x, node.position.y - ai.origin.y)
+    assert.ok(categoryToItem >= categoryRadius * 2)
   }
 
   for (let leftIndex = 0; leftIndex < layout.nodes.length; leftIndex += 1) {

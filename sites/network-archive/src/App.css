@@ -262,7 +262,7 @@ h1 {
 .category-node span {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 900;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -275,27 +275,28 @@ h1 {
 
 .category-node {
   position: absolute;
-  width: clamp(150px, 12vw, 180px);
+  width: clamp(78px, 6vw, 88px);
   transform: translate(-50%, -50%);
   border: 1px solid color-mix(in srgb, var(--category-color) 78%, transparent);
   background: linear-gradient(135deg, color-mix(in srgb, var(--category-color) 24%, #050505), rgba(5, 5, 5, 0.84));
   color: rgba(245, 245, 240, 0.9);
   pointer-events: none;
-  padding: 9px 10px;
+  padding: 5px 6px;
   text-align: left;
 }
 
 .category-node::before {
   content: '';
   position: absolute;
-  inset: -5px;
-  border: 1px solid color-mix(in srgb, var(--category-color) 44%, transparent);
+  inset: -3px;
+  border: 1px solid color-mix(in srgb, var(--category-color) 36%, transparent);
 }
 
 .category-node span {
   display: block;
   color: var(--category-color);
-  font-size: 0.67rem;
+  font-size: 0.42rem;
+  line-height: 1.03;
 }
 
 .category-node small {

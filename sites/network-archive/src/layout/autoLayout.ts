@@ -4,15 +4,15 @@ export const SOURCE_WIDTH = 1500
 export const SOURCE_HEIGHT = 1350
 export const SOURCE_CENTER = { x: SOURCE_WIDTH / 2, y: 610 }
 
-const CATEGORY_RING_RADIUS_X = 370
-const CATEGORY_RING_RADIUS_Y = 330
-const CATEGORY_SAFE_MARGIN_X = 170
-const CATEGORY_SAFE_MARGIN_Y = 145
-const ITEM_OUTER_GAP = 390
-const MULTI_CATEGORY_OUTER_GAP = 300
-const SIBLING_TANGENT_GAP = 165
+const CATEGORY_RING_RADIUS_X = 190
+const CATEGORY_RING_RADIUS_Y = 175
+const CATEGORY_SAFE_MARGIN_X = 120
+const CATEGORY_SAFE_MARGIN_Y = 110
+const ITEM_OUTER_GAP = 535
+const MULTI_CATEGORY_OUTER_GAP = 500
+const SIBLING_TANGENT_GAP = 210
 const SIBLING_RADIAL_STAGGER = 34
-const ITEM_ANCHOR_PULL = 0.006
+const ITEM_ANCHOR_PULL = 0.012
 const MIN_X = 92
 const MAX_X = SOURCE_WIDTH - 92
 const MIN_Y = 92
@@ -110,7 +110,7 @@ function nodeRadius(node: LayoutNodeInput) {
 function createClusterLayout(clusters: LayoutClusterInput[]): PositionedClusterItem[] {
   const orderedClusters = sortByStableIdentity(clusters)
   const angleStep = (Math.PI * 2) / Math.max(orderedClusters.length, 1)
-  const startAngle = -Math.PI / 2
+  const startAngle = -Math.PI / 2 + angleStep / 2
 
   return orderedClusters.map((cluster, index) => {
     const angle = startAngle + index * angleStep
@@ -182,7 +182,7 @@ function relaxNodes(simNodes: SimNode[], edges: EdgeItem[]) {
         const wanted = nodeRadius(left.node) + nodeRadius(right.node)
 
         if (distance < wanted) {
-          const force = ((wanted - distance) / distance) * 0.09 * cooling
+          const force = ((wanted - distance) / distance) * 0.16 * cooling
           const fx = dx * force
           const fy = dy * force
           left.velocity.x -= fx

@@ -142,7 +142,7 @@ export function ConstellationCanvas({
             y: projection.y,
           },
           depth: projection.depth,
-          labelSide: projection.x < brain.position.x ? 'left' as const : 'right' as const,
+          labelSide: projection.x < brain.position.x && projection.x > size.width * 0.22 ? 'left' as const : 'right' as const,
           ...visualFromDepth(projection.depth),
         }
       })
