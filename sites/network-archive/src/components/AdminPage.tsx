@@ -1,6 +1,7 @@
 import type { ChangeEvent, CSSProperties, FormEvent } from 'react'
 import { useMemo, useState } from 'react'
 import './AdminPage.css'
+import { tagsToText, textToTags } from '../adminTags'
 import type { ClusterItem, NodeItem, NodeKind, NodeSize } from '../types'
 
 export interface StorageStatus {
@@ -41,17 +42,6 @@ function slugify(value: string) {
     .replace(/^-|-$/g, '')
 }
 
-function tagsToText(tags: string[]) {
-  return tags.join(', ')
-}
-
-function textToTags(value: string) {
-  return value
-    .split(',')
-    .map((tag) => tag.trim())
-    .filter(Boolean)
-}
-
 function categoryNames(node: NodeItem, clusters: ClusterItem[]) {
   const selected = node.categories?.length ? node.categories : [node.cluster]
   return selected
@@ -87,6 +77,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, on
   const [selectedId, setSelectedId] = useState(nodes[0]?.id ?? 'new')
   const selectedNode = nodes.find((node) => node.id === selectedId)
   const [draft, setDraft] = useState<NodeItem>(selectedNode ?? { ...emptyDraft, cluster: clusters[0]?.id ?? 'ai', categories: [clusters[0]?.id ?? 'ai'] })
+  const [tagsInput, setTagsInput] = useState(tagsToText((selectedNode ?? emptyDraft).tags))
   const [jsonVisible, setJsonVisible] = useState(false)
 
   const sortedNodes = useMemo(() => {
@@ -98,14 +89,17 @@ export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, on
   const exportedJson = JSON.stringify(stripGeneratedFieldsForExport(nodes), null, 2)
 
   const selectNode = (node: NodeItem) => {
+    const nextDraft = { ...node, categories: node.categories?.length ? node.categories : [node.cluster] }
     setSelectedId(node.id)
-    setDraft({ ...node, categories: node.categories?.length ? node.categories : [node.cluster] })
+    setDraft(nextDraft)
+    setTagsInput(tagsToText(nextDraft.tags))
   }
 
   const createNew = () => {
     const primaryCluster = clusters[0]?.id ?? 'ai'
     setSelectedId('new')
     setDraft({ ...emptyDraft, cluster: primaryCluster, categories: [primaryCluster] })
+    setTagsInput('')
   }
 
   const toggleCategory = (categoryId: string) => {
@@ -133,7 +127,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, on
       summary: draft.summary.trim(),
       url: draft.url?.trim() || undefined,
       date: draft.date?.trim() || undefined,
-      tags: draft.tags.map((tag) => tag.trim()).filter(Boolean),
+      tags: textToTags(tagsInput),
       categories: draftCategories,
       cluster: draftCategories[0],
       detail: draft.detail?.trim() || undefined,
@@ -145,6 +139,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, on
     onNodesChange(nextNodes)
     setSelectedId(id)
     setDraft(normalizedDraft)
+    setTagsInput(tagsToText(normalizedDraft.tags))
   }
 
   const deleteDraft = () => {
@@ -173,6 +168,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, on
     onNodesChange([...nodes, clone])
     setSelectedId(cloneId)
     setDraft(clone)
+    setTagsInput(tagsToText(clone.tags))
   }
 
   const downloadNodesJson = () => {
@@ -198,6 +194,7 @@ export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, on
       if (firstNode) {
         setSelectedId(firstNode.id)
         setDraft(firstNode)
+        setTagsInput(tagsToText(firstNode.tags))
       } else {
         createNew()
       }
@@ -301,7 +298,15 @@ export function AdminPage({ clusters, nodes, onNodesChange, onReloadFromDisk, on
           <div className="admin-two-col">
             <label>
               <span>Tags</span>
-              <input value={tagsToText(draft.tags)} onChange={(event) => setDraft({ ...draft, tags: textToTags(event.target.value) })} placeholder="AI, archive, Melbourne" />
+              <input
+                value={tagsInput}
+                onChange={(event) => {
+                  const nextTagsInput = event.target.value
+                  setTagsInput(nextTagsInput)
+                  setDraft({ ...draft, tags: textToTags(nextTagsInput) })
+                }}
+                placeholder="AI, archive, Melbourne"
+              />
             </label>
             <label>
               <span>Date</span>

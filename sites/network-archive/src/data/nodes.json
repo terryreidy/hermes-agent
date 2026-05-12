@@ -1,20 +1,22 @@
 [
   {
     "id": "tools-hermes",
-    "title": "Hermes as personal infrastructure",
+    "title": "Hermes-agent as personal AI infrastructure",
     "kind": "tool",
     "summary": "A node for automation that becomes part of the working environment rather than a novelty demo.",
     "cluster": "tools",
     "categories": [
       "tools",
-      "ai",
-      "created"
+      "ai"
     ],
     "tags": [
       "Hermes",
       "automation"
     ],
-    "size": "large"
+    "size": "large",
+    "url": "https://hermes-agent.nousresearch.com",
+    "date": "2026-05-11",
+    "detail": "Released by Nous Research in 2026, Hermes doesn’t just answer questions — it learns, remembers, and evolves with you. Every successful task becomes a reusable skill stored as clean Markdown. \n\nIt reflects on what worked, refines its approach, and builds a living knowledge base tailored exactly to your life and work. The longer you use it, the more powerful it becomes.This is persistence done right. Hermes runs 24/7 on your own machine or cheap VPS. \n\nAll your data stays private in a local database — no cloud company owns your thoughts. Start a research task on your laptop, continue it from your phone via Telegram, and get updates on WhatsApp. It feels like texting a collaborator who never sleeps. Model-agnostic by design, it lets you plug in any brain you want: local Ollama, Grok, Claude, GPTx or whatever’s strongest next week. \n\nForty-plus tools give it real reach — web browsing, image generation, code execution, home automation, scheduling, and computer use."
   },
   {
     "id": "weird-internet-library",
@@ -31,5 +33,21 @@
       "archive"
     ],
     "size": "medium"
+  },
+  {
+    "id": "bill-evans-jazz-piano",
+    "title": "Bill Evans - the jazz pianist who took giant steps",
+    "kind": "person",
+    "summary": "Marked by tragedy, gentle genius met dense jazz harmony and became an inspiration to generations of jazz pianists.",
+    "cluster": "music-art-inspire",
+    "categories": [
+      "music-art-inspire"
+    ],
+    "tags": [
+      "Jazz"
+    ],
+    "size": "medium",
+    "detail": "Evans’s thoughtful, lyrical, and harmonically sophisticated approach was a perfect foil for Miles Davis’ sparse, cool trumpet style. Their brief time together helped push jazz toward modal improvisation and greater freedom — a shift that defined Kind of Blue, still one of the best-selling and most influential jazz albums ever.",
+    "date": "2026-05-12"
   }
 ]

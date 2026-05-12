@@ -275,28 +275,28 @@ h1 {
 
 .category-node {
   position: absolute;
-  width: clamp(78px, 6vw, 88px);
+  width: clamp(156px, 12vw, 176px);
   transform: translate(-50%, -50%);
   border: 1px solid color-mix(in srgb, var(--category-color) 78%, transparent);
   background: linear-gradient(135deg, color-mix(in srgb, var(--category-color) 24%, #050505), rgba(5, 5, 5, 0.84));
   color: rgba(245, 245, 240, 0.9);
   pointer-events: none;
-  padding: 5px 6px;
+  padding: 10px 12px;
   text-align: left;
 }
 
 .category-node::before {
   content: '';
   position: absolute;
-  inset: -3px;
+  inset: -6px;
   border: 1px solid color-mix(in srgb, var(--category-color) 36%, transparent);
 }
 
 .category-node span {
   display: block;
   color: var(--category-color);
-  font-size: 0.42rem;
-  line-height: 1.03;
+  font-size: 0.84rem;
+  line-height: 1.06;
 }
 
 .category-node small {
