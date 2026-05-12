@@ -41,8 +41,8 @@ function App() {
     <main className="archive-page">
       <header className="top-banner">
         <div className="banner-title-block">
-          <p className="eyebrow">My personal hivemind</p>
-          <h1>002.au</h1>
+          <p className="eyebrow">Terry's hivemind</p>
+          <h1>reidy.au</h1>
         </div>
         <div className="banner-copy-block">
           <p className="intro">

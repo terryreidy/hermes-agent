@@ -172,7 +172,7 @@ export function ConstellationCanvas({
       {...rotationHandlers}
     >
       <div className="map-instructions">
-        <span>002.au / brain → categories → items</span>
+        <span>reidy.au / brain → categories → items</span>
         <span>drag empty space to rotate · click a node to inspect</span>
       </div>
       <button type="button" className="pan-reset" onClick={resetRotation} data-no-canvas-rotate="true">
