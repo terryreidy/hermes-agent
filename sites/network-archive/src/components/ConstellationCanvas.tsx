@@ -142,11 +142,12 @@ export function ConstellationCanvas({
             y: projection.y,
           },
           depth: projection.depth,
+          labelSide: projection.x < brain.position.x ? 'left' as const : 'right' as const,
           ...visualFromDepth(projection.depth),
         }
       })
       .sort((a, b) => a.depth - b.depth)
-  }, [autoLayout.nodes, rotation, size])
+  }, [autoLayout.nodes, brain.position.x, rotation, size])
 
   const projectedClusters = useMemo<ProjectedCluster[]>(() => {
     return autoLayout.clusters.map((cluster) => {

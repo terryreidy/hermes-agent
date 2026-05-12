@@ -9,6 +9,7 @@ export interface ProjectedNode extends Omit<NodeItem, 'position'> {
   depth: number
   visualScale: number
   visualOpacity: number
+  labelSide: 'left' | 'right'
 }
 
 interface NodeMarkerProps {
@@ -29,15 +30,19 @@ const kindLabel: Record<NodeItem['kind'], string> = {
 }
 
 export function NodeMarker({ node, isActive, onSelect, onHover }: NodeMarkerProps) {
+  const markerTransform = node.labelSide === 'left'
+    ? `translate(calc(-100% + 9px), -9px) scale(${node.visualScale})`
+    : `translate(-9px, -9px) scale(${node.visualScale})`
+
   return (
     <button
       type="button"
-      className={`node-marker node-${node.size} ${isActive ? 'is-active' : ''}`}
+      className={`node-marker node-${node.size} node-label-${node.labelSide} ${isActive ? 'is-active' : ''}`}
       style={{
         left: node.position.x,
         top: node.position.y,
         opacity: node.visualOpacity,
-        transform: `translate(-9px, -9px) scale(${node.visualScale})`,
+        transform: markerTransform,
         zIndex: Math.round(20 + node.depth * 20),
       } as CSSProperties}
       onPointerDown={(event) => event.stopPropagation()}

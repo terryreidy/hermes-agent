@@ -190,11 +190,12 @@ h1 {
 }
 
 .edge-brain-category {
-  stroke-width: 1.65;
+  stroke-width: 1.45;
 }
 
 .edge-item-category {
-  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-width: 1.2;
 }
 
 .edge-peer {
@@ -274,13 +275,13 @@ h1 {
 
 .category-node {
   position: absolute;
-  width: 220px;
+  width: clamp(150px, 12vw, 180px);
   transform: translate(-50%, -50%);
   border: 1px solid color-mix(in srgb, var(--category-color) 78%, transparent);
   background: linear-gradient(135deg, color-mix(in srgb, var(--category-color) 24%, #050505), rgba(5, 5, 5, 0.84));
   color: rgba(245, 245, 240, 0.9);
   pointer-events: none;
-  padding: 11px 12px 12px;
+  padding: 9px 10px;
   text-align: left;
 }
 
@@ -298,11 +299,7 @@ h1 {
 }
 
 .category-node small {
-  display: block;
-  margin-top: 7px;
-  color: rgba(245, 245, 240, 0.66);
-  font-size: 0.72rem;
-  line-height: 1.28;
+  display: none;
 }
 
 .node-marker {
@@ -335,6 +332,22 @@ h1 {
   display: grid;
   gap: 5px;
   transform: translateY(-5px);
+}
+
+.node-label-left {
+  grid-template-columns: minmax(110px, 210px) auto;
+  transform-origin: calc(100% - 9px) 9px;
+}
+
+.node-label-left .node-dot {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.node-label-left .node-copy {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: right;
 }
 
 .node-title {

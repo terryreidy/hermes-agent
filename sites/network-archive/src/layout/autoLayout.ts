@@ -4,8 +4,15 @@ export const SOURCE_WIDTH = 1500
 export const SOURCE_HEIGHT = 1350
 export const SOURCE_CENTER = { x: SOURCE_WIDTH / 2, y: 610 }
 
-const CLUSTER_RADIUS_X = 430
-const CLUSTER_RADIUS_Y = 385
+const CATEGORY_RING_RADIUS_X = 370
+const CATEGORY_RING_RADIUS_Y = 330
+const CATEGORY_SAFE_MARGIN_X = 170
+const CATEGORY_SAFE_MARGIN_Y = 145
+const ITEM_OUTER_GAP = 390
+const MULTI_CATEGORY_OUTER_GAP = 300
+const SIBLING_TANGENT_GAP = 165
+const SIBLING_RADIAL_STAGGER = 34
+const ITEM_ANCHOR_PULL = 0.006
 const MIN_X = 92
 const MAX_X = SOURCE_WIDTH - 92
 const MIN_Y = 92
@@ -87,6 +94,13 @@ function normalizeVector(vector: Point, fallbackAngle: number) {
   return { x: vector.x / length, y: vector.y / length }
 }
 
+function pointFromCenter(direction: Point, distance: number, origin = SOURCE_CENTER): Point {
+  return {
+    x: origin.x + direction.x * distance,
+    y: origin.y + direction.y * distance,
+  }
+}
+
 function nodeRadius(node: LayoutNodeInput) {
   if (node.size === 'large') return 120
   if (node.size === 'small') return 78
@@ -101,15 +115,15 @@ function createClusterLayout(clusters: LayoutClusterInput[]): PositionedClusterI
   return orderedClusters.map((cluster, index) => {
     const angle = startAngle + index * angleStep
     const generatedOrigin = {
-      x: SOURCE_CENTER.x + Math.cos(angle) * CLUSTER_RADIUS_X,
-      y: SOURCE_CENTER.y + Math.sin(angle) * CLUSTER_RADIUS_Y,
+      x: SOURCE_CENTER.x + Math.cos(angle) * CATEGORY_RING_RADIUS_X,
+      y: SOURCE_CENTER.y + Math.sin(angle) * CATEGORY_RING_RADIUS_Y,
     }
 
     return {
       ...cluster,
       origin: {
-        x: clamp(generatedOrigin.x, MIN_X + 150, MAX_X - 150),
-        y: clamp(generatedOrigin.y, MIN_Y + 120, MAX_Y - 120),
+        x: clamp(generatedOrigin.x, MIN_X + CATEGORY_SAFE_MARGIN_X, MAX_X - CATEGORY_SAFE_MARGIN_X),
+        y: clamp(generatedOrigin.y, MIN_Y + CATEGORY_SAFE_MARGIN_Y, MAX_Y - CATEGORY_SAFE_MARGIN_Y),
       },
     }
   })
@@ -127,23 +141,27 @@ function initialNodePosition(
 
   const rawAnchor = averagePoint(linkedClusters.map((cluster) => cluster.origin))
   const fallbackAngle = (stableHash(node.id) / 2 ** 32) * Math.PI * 2
-  const outward = normalizeVector({ x: rawAnchor.x - SOURCE_CENTER.x, y: rawAnchor.y - SOURCE_CENTER.y }, fallbackAngle)
+  const rawDirection = normalizeVector({ x: rawAnchor.x - SOURCE_CENTER.x, y: rawAnchor.y - SOURCE_CENTER.y }, fallbackAngle)
+  const innerAnchor = Math.hypot(rawAnchor.x - SOURCE_CENTER.x, rawAnchor.y - SOURCE_CENTER.y) < 90
+    ? pointFromCenter(rawDirection, 180)
+    : rawAnchor
+  const outward = normalizeVector({ x: innerAnchor.x - SOURCE_CENTER.x, y: innerAnchor.y - SOURCE_CENTER.y }, fallbackAngle)
   const tangent = { x: -outward.y, y: outward.x }
   const siblingOffset = nodeIndex - (siblingCount - 1) / 2
   const jitter = ((stableHash(`${node.id}:jitter`) % 1000) / 1000 - 0.5) * 42
-  const bridgePull = linkedClusters.length > 1 ? 0 : 220
-  const anchor = linkedClusters.length > 1
-    ? {
-        x: rawAnchor.x + outward.x * 160,
-        y: rawAnchor.y + outward.y * 160,
-      }
-    : rawAnchor
+  const radialGap = linkedClusters.length > 1 ? MULTI_CATEGORY_OUTER_GAP : ITEM_OUTER_GAP
+  const radialStagger = (Math.abs(siblingOffset) % 3) * SIBLING_RADIAL_STAGGER
+  const tangentSpread = siblingOffset * SIBLING_TANGENT_GAP
+  const anchor = {
+    x: innerAnchor.x + outward.x * radialGap,
+    y: innerAnchor.y + outward.y * radialGap,
+  }
 
   return {
     anchor,
     position: {
-      x: anchor.x + outward.x * (bridgePull + jitter) + tangent.x * siblingOffset * 170,
-      y: anchor.y + outward.y * (bridgePull + jitter) + tangent.y * siblingOffset * 170,
+      x: anchor.x + outward.x * (jitter + radialStagger) + tangent.x * tangentSpread,
+      y: anchor.y + outward.y * (jitter + radialStagger) + tangent.y * tangentSpread,
     },
   }
 }
@@ -164,7 +182,7 @@ function relaxNodes(simNodes: SimNode[], edges: EdgeItem[]) {
         const wanted = nodeRadius(left.node) + nodeRadius(right.node)
 
         if (distance < wanted) {
-          const force = ((wanted - distance) / distance) * 0.06 * cooling
+          const force = ((wanted - distance) / distance) * 0.09 * cooling
           const fx = dx * force
           const fy = dy * force
           left.velocity.x -= fx
@@ -176,8 +194,8 @@ function relaxNodes(simNodes: SimNode[], edges: EdgeItem[]) {
     }
 
     for (const simNode of simNodes) {
-      simNode.velocity.x += (simNode.anchor.x - simNode.position.x) * 0.006 * simNode.weight
-      simNode.velocity.y += (simNode.anchor.y - simNode.position.y) * 0.006 * simNode.weight
+      simNode.velocity.x += (simNode.anchor.x - simNode.position.x) * ITEM_ANCHOR_PULL * simNode.weight
+      simNode.velocity.y += (simNode.anchor.y - simNode.position.y) * ITEM_ANCHOR_PULL * simNode.weight
     }
 
     for (const edge of edges) {
@@ -188,8 +206,8 @@ function relaxNodes(simNodes: SimNode[], edges: EdgeItem[]) {
       const dx = target.position.x - source.position.x
       const dy = target.position.y - source.position.y
       const distance = Math.max(1, Math.hypot(dx, dy))
-      const wanted = 230
-      const force = ((distance - wanted) / distance) * 0.003
+      const wanted = 280
+      const force = ((distance - wanted) / distance) * 0.0018
       const fx = dx * force
       const fy = dy * force
       source.velocity.x += fx

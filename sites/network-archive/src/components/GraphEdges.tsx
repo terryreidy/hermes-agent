@@ -47,6 +47,19 @@ function curvedPath(source: GraphPoint, target: GraphPoint, bend = 0.18) {
   return `M ${source.position.x} ${source.position.y} Q ${midX + normalX} ${midY + normalY} ${target.position.x} ${target.position.y}`
 }
 
+function inwardCategoryPath(cluster: GraphPoint, node: GraphPoint, bend = 0.24) {
+  const midX = (cluster.position.x + node.position.x) / 2
+  const midY = (cluster.position.y + node.position.y) / 2
+  const dx = node.position.x - cluster.position.x
+  const dy = node.position.y - cluster.position.y
+  const distance = Math.max(1, Math.hypot(dx, dy))
+  const normalSign = node.id < cluster.id ? -1 : 1
+  const normalX = (-dy / distance) * distance * bend * normalSign
+  const normalY = (dx / distance) * distance * bend * normalSign
+
+  return `M ${node.position.x} ${node.position.y} Q ${midX + normalX} ${midY + normalY} ${cluster.position.x} ${cluster.position.y}`
+}
+
 export function GraphEdges({ edges, nodes, clusters, brain, activeNodeId, width, height }: GraphEdgesProps) {
   const nodesById = new Map(nodes.map((node) => [node.id, node]))
   const clustersById = new Map(clusters.map((cluster) => [cluster.id, cluster]))
@@ -76,7 +89,7 @@ export function GraphEdges({ edges, nodes, clusters, brain, activeNodeId, width,
             <path
               key={`${node.id}-${categoryId}`}
               className={`edge edge-item-category ${isActive ? 'is-active' : ''}`}
-              d={curvedPath(cluster, node, 0.13)}
+              d={inwardCategoryPath(cluster, node, 0.22)}
               style={{
                 '--edge-color': cluster.color,
                 opacity: isActive ? 0.9 : 0.18 + ((node.depth + cluster.depth) / 2) * 0.26,

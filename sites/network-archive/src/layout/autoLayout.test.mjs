@@ -18,6 +18,14 @@ const nodes = [
 
 const edges = [{ source: 'a', target: 'bridge', type: 'related' }]
 
+function distanceFromCenter(point) {
+  return Math.hypot(point.x - SOURCE_CENTER.x, point.y - SOURCE_CENTER.y)
+}
+
+function categoriesForNode(node) {
+  return node.categories?.length ? node.categories : [node.cluster]
+}
+
 test('computeAutoLayout positions clusters and nodes without JSON coordinates', () => {
   const layout = computeAutoLayout({ clusters, nodes, edges })
 
@@ -52,7 +60,34 @@ test('computeAutoLayout is deterministic and separates sibling nodes', () => {
   assert.ok(Math.hypot(a.position.x - b.position.x, a.position.y - b.position.y) > 110)
 })
 
-test('multi-category items sit between their category hubs', () => {
+test('single-category items sit beyond their category hubs', () => {
+  const layout = computeAutoLayout({ clusters, nodes, edges })
+  const byCluster = new Map(layout.clusters.map((cluster) => [cluster.id, cluster]))
+
+  for (const node of layout.nodes) {
+    if (categoriesForNode(node).length !== 1) continue
+
+    const cluster = byCluster.get(categoriesForNode(node)[0])
+    assert.ok(cluster)
+
+    assert.ok(
+      distanceFromCenter(node.position) > distanceFromCenter(cluster.origin) + 80,
+      `${node.id} should sit outside ${cluster.id}`,
+    )
+  }
+})
+
+test('category hubs form a readable inner ring around the brain', () => {
+  const layout = computeAutoLayout({ clusters, nodes, edges })
+
+  for (const cluster of layout.clusters) {
+    const radius = distanceFromCenter(cluster.origin)
+    assert.ok(radius >= 220, `${cluster.id} should not overlap the brain`)
+    assert.ok(radius <= 390, `${cluster.id} should stay in the inner ring`)
+  }
+})
+
+test('multi-category items sit outside the average direction of their category hubs', () => {
   const layout = computeAutoLayout({ clusters, nodes, edges })
   const byCluster = new Map(layout.clusters.map((cluster) => [cluster.id, cluster]))
   const bridge = layout.nodes.find((node) => node.id === 'bridge')
@@ -68,8 +103,41 @@ test('multi-category items sit between their category hubs', () => {
     y: (design.origin.y + tools.origin.y) / 2,
   }
   const toMidpoint = Math.hypot(bridge.position.x - midpoint.x, bridge.position.y - midpoint.y)
-  const toCenter = Math.hypot(bridge.position.x - SOURCE_CENTER.x, bridge.position.y - SOURCE_CENTER.y)
+  const midpointRadius = distanceFromCenter(midpoint)
+  const bridgeRadius = distanceFromCenter(bridge.position)
 
-  assert.ok(toMidpoint < 260)
-  assert.ok(toCenter > 120)
+  assert.ok(toMidpoint < 420)
+  assert.ok(bridgeRadius > midpointRadius + 80)
+})
+
+test('dense category items remain separated on the outer ring', () => {
+  const denseNodes = Array.from({ length: 8 }, (_, index) => ({
+    id: `ai-${index}`,
+    title: `AI item ${index}`,
+    kind: 'note',
+    summary: 'Dense item',
+    cluster: 'ai',
+    categories: ['ai'],
+    tags: [],
+    size: 'medium',
+  }))
+
+  const layout = computeAutoLayout({ clusters, nodes: denseNodes, edges: [] })
+  const ai = layout.clusters.find((cluster) => cluster.id === 'ai')
+  assert.ok(ai)
+
+  for (const node of layout.nodes) {
+    assert.ok(distanceFromCenter(node.position) > distanceFromCenter(ai.origin) + 60)
+  }
+
+  for (let leftIndex = 0; leftIndex < layout.nodes.length; leftIndex += 1) {
+    for (let rightIndex = leftIndex + 1; rightIndex < layout.nodes.length; rightIndex += 1) {
+      const left = layout.nodes[leftIndex]
+      const right = layout.nodes[rightIndex]
+      assert.ok(
+        Math.hypot(left.position.x - right.position.x, left.position.y - right.position.y) > 70,
+        `${left.id} and ${right.id} should not overlap`,
+      )
+    }
+  }
 })
