@@ -124,5 +124,24 @@
     "size": "small",
     "detail": "\"General quality and performance enhancements\". \n\nMS earlier today: \n\n>> Copilot make it shorter... \n\n>> Shorter... \n\n>> VERY SHORT!\n\n>> Thank you. Ship it.",
     "date": "2025-05-13"
+  },
+  {
+    "id": "db-drop-mic-drop",
+    "title": "DB drop, mic drop",
+    "kind": "news",
+    "summary": "Destruction of data on the way out",
+    "cluster": "ai",
+    "categories": [
+      "ai",
+      "security"
+    ],
+    "tags": [
+      "Cybersecurity",
+      "insider threat"
+    ],
+    "size": "small",
+    "detail": "Two brothers deleted 96 US government databases after learning they were fired from their jobs.\n\nInsider threat accelerates as AI reshapes the global workforce.",
+    "url": "https://arstechnica.com/tech-policy/2026/05/drop-database-what-not-to-do-after-losing-an-it-job/",
+    "date": "2026-05-14"
   }
 ]
