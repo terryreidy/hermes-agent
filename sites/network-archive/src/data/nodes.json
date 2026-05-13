@@ -63,7 +63,10 @@
       "australia",
       "music-art-inspire"
     ],
-    "tags": [],
+    "tags": [
+      "unimelb",
+      "poem"
+    ],
     "size": "large",
     "detail": "Beneath the tower of ancient stone,\nWhere knowledge grows like parchment bone,\nThe Old Quad whispers tales long grown,\nIn halls where brilliant minds still dream.  \n\nCrimson creeper climbs the walls,\nLaughter rings through emerald lawns,\nFrom Parkville’s heart the future calls,\nWhere Melbourne’s brightest dawn is born.  \n\nIn labs and libraries, midnight burns,\nNew worlds are shaped by hand and pen,\nHere scholars rise, and legends turn,\nThe University of Melbourne—first again.",
     "url": "https://unimelb.edu.au",
@@ -103,5 +106,23 @@
     "size": "large",
     "detail": "It was the adrenaline and the ambiguity and the people in the big room with laser focus.\n\nIt was the FAQs and the banners and keeping Reddit safe and it was the 9,000 friends we made that day.\n\nAnd what a steal at thirteen million.",
     "url": "https://instructure.com"
+  },
+  {
+    "id": "general-quality-and-performance-enhancements",
+    "title": "General quality and performance  enhancements",
+    "kind": "news",
+    "summary": "Today's new Excel update has release notes.",
+    "cluster": "ai",
+    "categories": [
+      "ai",
+      "tools"
+    ],
+    "tags": [
+      "Microsoft",
+      "100% not AI"
+    ],
+    "size": "small",
+    "detail": "\"General quality and performance enhancements\". \n\nMS earlier today: \n\n>> Copilot make it shorter... \n\n>> Shorter... \n\n>> VERY SHORT!\n\n>> Thank you. Ship it.",
+    "date": "2025-05-13"
   }
 ]
