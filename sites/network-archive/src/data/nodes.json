@@ -20,9 +20,9 @@
   },
   {
     "id": "weird-internet-library",
-    "title": "Small weird internet library",
-    "kind": "link",
-    "summary": "A place for strange, useful, beautiful, or inexplicable pages that should not disappear into browser history.",
+    "title": "Small weird collection of objects",
+    "kind": "note",
+    "summary": "The hivemind is my place for my virtual things.",
     "cluster": "tools",
     "categories": [
       "tools",
@@ -32,7 +32,9 @@
       "internet",
       "archive"
     ],
-    "size": "medium"
+    "size": "small",
+    "detail": "Strange, useful, beautiful, or inexplicable things that should not disappear into browser history.",
+    "date": "2026-05-13"
   },
   {
     "id": "bill-evans-jazz-piano",
@@ -44,10 +46,62 @@
       "music-art-inspire"
     ],
     "tags": [
-      "Jazz"
+      "Jazz",
+      "Piano"
     ],
     "size": "medium",
     "detail": "Evans’s thoughtful, lyrical, and harmonically sophisticated approach was a perfect foil for Miles Davis’ sparse, cool trumpet style. Their brief time together helped push jazz toward modal improvisation and greater freedom — a shift that defined Kind of Blue, still one of the best-selling and most influential jazz albums ever.",
     "date": "2026-05-12"
+  },
+  {
+    "id": "unimelb-1",
+    "title": "unimelb #1",
+    "kind": "link",
+    "summary": "Australia's #1 university.",
+    "cluster": "australia",
+    "categories": [
+      "australia",
+      "music-art-inspire"
+    ],
+    "tags": [],
+    "size": "large",
+    "detail": "Beneath the tower of ancient stone,\nWhere knowledge grows like parchment bone,\nThe Old Quad whispers tales long grown,\nIn halls where brilliant minds still dream.  \n\nCrimson creeper climbs the walls,\nLaughter rings through emerald lawns,\nFrom Parkville’s heart the future calls,\nWhere Melbourne’s brightest dawn is born.  \n\nIn labs and libraries, midnight burns,\nNew worlds are shaped by hand and pen,\nHere scholars rise, and legends turn,\nThe University of Melbourne—first again.",
+    "url": "https://unimelb.edu.au",
+    "date": "2026-05-13"
+  },
+  {
+    "id": "brutal-blocks",
+    "title": "Brutal blocks",
+    "kind": "note",
+    "summary": "Something about brutalist architecture resonates with me.",
+    "cluster": "design",
+    "categories": [
+      "design",
+      "australia",
+      "security",
+      "music-art-inspire"
+    ],
+    "tags": [
+      "Architecture",
+      "Brutalism",
+      "1974"
+    ],
+    "size": "large",
+    "detail": "Brutalism's revival today—fueled by photography, preservation efforts, and cultural nostalgia—shows how context, maintenance, and perspective transform \"ugly\" into compelling. \n\nIt's not universally pretty in a conventional sense, but its uncompromising boldness offers a profound, visceral beauty: the poetry of the raw, the power of the unadorned, and the dignity of honest expression. In a world of superficial gloss, that raw authenticity can feel refreshingly powerful.\n\nIs it the bold strength, the safety, the uncompromising imposition on place?",
+    "date": "2026-05-13"
+  },
+  {
+    "id": "canvas-as-art",
+    "title": "Canvas as art",
+    "kind": "news",
+    "summary": "The crushing reality of LMS-ness",
+    "cluster": "security",
+    "categories": [
+      "security"
+    ],
+    "tags": [],
+    "size": "large",
+    "detail": "It was the adrenaline and the ambiguity and the people in the big room with laser focus.\n\nIt was the FAQs and the banners and keeping Reddit safe and it was the 9,000 friends we made that day.\n\nAnd what a steal at thirteen million.",
+    "url": "https://instructure.com"
   }
 ]
