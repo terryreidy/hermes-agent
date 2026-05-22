@@ -143,5 +143,44 @@
     "detail": "Two brothers deleted 96 US government databases after learning they were fired from their jobs.\n\nInsider threat accelerates as AI reshapes the global workforce.",
     "url": "https://arstechnica.com/tech-policy/2026/05/drop-database-what-not-to-do-after-losing-an-it-job/",
     "date": "2026-05-14"
+  },
+  {
+    "id": "github-incident-may-2026",
+    "title": "Github incident May 2026",
+    "kind": "news",
+    "summary": "Quick response and containment.",
+    "cluster": "ai",
+    "categories": [
+      "ai",
+      "security"
+    ],
+    "tags": [
+      "AI",
+      "Breach",
+      "Microsoft",
+      "Github"
+    ],
+    "size": "small",
+    "detail": "But the impact of the exfiltrated 3800 repositories will unfold over the coming weeks.\nvscode extensions jumping up in threat models for developers immersed in the vibecoding frenzy.",
+    "url": "https://x.com/github/status/2056949168208552080",
+    "date": "2026-05-20"
+  },
+  {
+    "id": "coffee",
+    "title": "Coffee",
+    "kind": "note",
+    "summary": "Looms large on my mornings.",
+    "cluster": "australia",
+    "categories": [
+      "australia",
+      "music-art-inspire"
+    ],
+    "tags": [
+      "Coffee",
+      "morning"
+    ],
+    "size": "large",
+    "detail": "Currently enjoying Mr Summit, Cafe Scopa, Ini studio, Flovie, Southside Griller, my Nespresso pod machine using 2 pods on the cappuccino setting with full cream milk.",
+    "date": "2026-05-22"
   }
 ]
