@@ -182,5 +182,44 @@
     "size": "large",
     "detail": "Currently enjoying Mr Summit, Cafe Scopa, Ini studio, Flovie, Southside Griller, my Nespresso pod machine using 2 pods on the cappuccino setting with full cream milk.",
     "date": "2026-05-22"
+  },
+  {
+    "id": "anthropic-claude-sonnet-5-agentic-model",
+    "title": "Claude Sonnet 5 brings agent work down the cost curve",
+    "kind": "news",
+    "summary": "Anthropic is pitching a cheaper model for planning, coding and tool-using agents — where reliability matters more than a benchmark chart.",
+    "cluster": "ai",
+    "categories": ["ai", "tools"],
+    "tags": ["Anthropic", "Claude", "agents", "models"],
+    "size": "medium",
+    "detail": "Anthropic says Claude Sonnet 5 closes much of the gap to its larger Opus 4.8 model on some agentic tasks while launching at lower API prices. That matters because browser, terminal and coding workflows may become viable for more teams — but long-running reliability, supervision and operational controls remain the real test.",
+    "url": "https://www.anthropic.com/news/claude-sonnet-5",
+    "date": "2026-07-15"
+  },
+  {
+    "id": "google-managed-agents-remote-mcp",
+    "title": "Google makes more of the agent plumbing managed",
+    "kind": "news",
+    "summary": "Background jobs, remote MCP connections and credential refresh move agent infrastructure closer to a managed service.",
+    "cluster": "ai",
+    "categories": ["ai", "tools", "security"],
+    "tags": ["Google", "Gemini", "MCP", "agent infrastructure"],
+    "size": "medium",
+    "detail": "Google has added background execution, remote MCP-server connections, custom functions and credential refresh to Managed Agents in the Gemini API. The interesting shift is not another chatbot feature: it is a transfer of agent plumbing into the platform layer. That makes identity, permissions, observability and revocation first-class design problems.",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/",
+    "date": "2026-07-15"
+  },
+  {
+    "id": "alberta-ai-security-modernisation-case-study",
+    "title": "Alberta’s AI security sprint is a useful case study — not proof by itself",
+    "kind": "news",
+    "summary": "A government team says it used AI agents to review 466 million lines of legacy code; the scale is striking, but the numbers are vendor-reported.",
+    "cluster": "security",
+    "categories": ["security", "ai", "tools"],
+    "tags": ["public sector", "cybersecurity", "legacy systems", "Claude Code"],
+    "size": "medium",
+    "detail": "Anthropic’s case study says Alberta used Claude Code and around 50 parallel agents to assess 466 million lines of government code in 20 hours, then used human-reviewed fixes and continuous red-team/blue-team checks. The strongest lesson is the operating model: agents can compress security review and legacy modernisation, but people still need to own the evidence, approvals and releases. The headline figures should be read as vendor-reported, not independently audited.",
+    "url": "https://www.anthropic.com/news/alberta-government-claude-cybersecurity",
+    "date": "2026-07-15"
   }
 ]
